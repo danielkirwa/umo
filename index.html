@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Landing Page</title>
+  <link rel="stylesheet" type="text/css" href="css/home.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+    }
+
+   
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <nav>
+      <div class="logo">MyBrand</div>
+      <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+      <div class="menu" id="menu">
+        <a href="#">About</a>
+        <a href="#contact">Contact</a>
+        <a href="auth.html">Login</a>
+        <a href="auth.html">Register</a>
+      </div>
+    </nav>
+
+    <div class="welcome">
+      <h1>Welcome to Our Site</h1>
+      <div class="typing" id="typing-text"></div>
+    </div>
+  </div>
+
+  <section class="contact-form" id="contact">
+    <h2>Contact Us</h2>
+    <input type="text" placeholder="Your Name" required />
+    <input type="email" placeholder="Your Email" required />
+    <textarea rows="5" placeholder="Your Message" required></textarea>
+    <button type="submit">Send Message</button>
+  </section>
+
+  <footer>
+    &copy; 2025 MyBrand. All rights reserved.
+  </footer>
+
+  <script>
+    // Typing Effect
+    const text = ["We create amazing things.", "We love design & tech.", "Your success is our mission."];
+    let count = 0;
+    let index = 0;
+    let currentText = '';
+    let letter = '';
+
+    function type() {
+      if (count === text.length) {
+        count = 0;
+      }
+
+      currentText = text[count];
+      letter = currentText.slice(0, ++index);
+
+      document.getElementById('typing-text').textContent = letter;
+
+      if (letter.length === currentText.length) {
+        count++;
+        index = 0;
+        setTimeout(type, 2000); // Pause before next line
+      } else {
+        setTimeout(type, 100);
+      }
+    }
+
+    window.onload = type;
+
+    // Toggle Menu for Mobile
+    function toggleMenu() {
+      const menu = document.getElementById('menu');
+      menu.classList.toggle('active');
+    }
+  </script>
+</body>
+</html>

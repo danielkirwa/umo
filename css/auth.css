@@ -1,0 +1,190 @@
+
+    .hero {
+      background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80') no-repeat center center/cover;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: 1;
+    }
+
+    nav {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      padding: 20px 50px;
+      background-color: #8fddff;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .menu a {
+      color: black;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .menu a:hover {
+      color: #1E90FF;
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      max-width: 400px;
+      margin: 80px auto;
+      background-color: #fafafa;
+      padding: 30px;
+      border-radius: 10px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #1E90FF;
+      margin-bottom: 20px;
+    }
+
+    form input, form select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 2px solid #1E90FF;
+      background-color: #fafafa;
+      color: black;
+    }
+
+    form button {
+      width: 100%;
+      padding: 10px;
+      background-color: #8fddff;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      color: #000;
+      cursor: pointer;
+    }
+
+    form button:hover {
+      background-color: #1E90FF;
+    }
+
+    .toggle-btn {
+      text-align: center;
+      display: block;
+      margin-top: 15px;
+      color: #1E90FF;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .remember-me {
+      align-items: center;
+      display: flex;
+      color: #1E90FF;
+      margin-bottom: 15px;
+  
+    }
+
+    .remember-me input {
+      float: left;
+      margin-right: 10px;
+    }
+
+    .form-container {
+      display: none;
+    }
+
+    .form-container.active {
+      display: block;
+    }
+
+    .error {
+      color: red;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 600px) {
+      nav {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .menu {
+        margin-top: 10px;
+      }
+
+      .menu a {
+        display: block;
+        margin: 10px 0;
+      }
+
+      .container {
+        margin: 50px 20px;
+      }
+    }
+
+    /* alert */
+#alertBox {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  width: 300px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 5px rgba(0,0,0,.3);
+}
+#alertBoxRefresh{
+  z-index: 1000;
+    display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  width: 300px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 5px rgba(0,0,0,.3);
+}
+
+#alertTitle {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+#alertMessage {
+  margin-bottom: 20px;
+}
+
+#alertBoxRefresh button {
+  width: 100px;
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+#alertBox button {
+  width: 100px;
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}

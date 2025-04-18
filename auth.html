@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login and Register</title>
+  <link rel="stylesheet" type="text/css" href="css/auth.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <!-- Navigation Bar -->
+    <nav>
+      <div class="logo">MyBrand</div>
+      <div class="menu">
+        <a href="index.html">Home</a>
+        <a href="#">About</a>
+        <a href="#login-form">Login</a>
+        <a href="#register-form">Register</a>
+      </div>
+    </nav>
+
+    <!-- Login/Register Container -->
+    <div class="container">
+      <!-- Login Form -->
+      <div class="form-container login-form active" id="login-form">
+        <h2>Login</h2>
+        <form>
+          <div class="error" id="login-error"></div>
+          <input type="email" id="login-email" placeholder="Email" required />
+          <input type="password" id="login-password" placeholder="Password" required />
+          <div class="remember-me">
+            <input type="checkbox" id="remember-me" style="float: left;" />Remember&nbsp;&nbsp;me  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <label for="remember-me">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+          </div>
+          <button type="button" id="btnlogin">Log now</button><br><br>
+          <button type="button"style="background-color: #00000000; color:#1E90FF;" onclick="iforgotpassword()">Forgot Password </button>
+        </form>
+        <a href="#" class="toggle-btn" onclick="toggleForm('register')">Don't have an account? Register</a>
+      </div>
+
+      <!-- Register Form -->
+      <div class="form-container register-form" id="register-form">
+        <h2>Register</h2>
+        <form>
+          <div class="error" id="register-error"></div>
+          <input type="text" id="first-name" placeholder="First Name" required />
+          <input type="text" id="last-name" placeholder="Last Name" required />
+          <input type="tel" id="phone" placeholder="Phone" required />
+          <input type="email" id="register-email" placeholder="Email" required />
+          <input type="date" id="dob" placeholder="Date of Birth" required />
+          <input type="text" id="address" placeholder="Delivery Address" required />
+          <input type="password" id="register-password" placeholder="Password" required />
+          <input type="password" id="confirm-password" placeholder="Confirm Password" required />
+          <button type="button" id="btnregister">Register</button>
+        </form>
+        <a href="#" class="toggle-btn" onclick="toggleForm('login')">Already have an account? Login</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="alertBox" style="z-index: 1000;">
+  <h2 id="alertTitle"></h2>
+  <p id="alertMessage" style="color:black;"></p>
+  <center>
+  <button onclick="hideAlert()">OK</button>
+  </center>
+</div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.2.5/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.5/firebase-auth.js"></script>
+<script type="text/javascript" src="js/config.js"></script>
+  <script type="text/javascript" src="js/auth.js"></script>
+</body>
+</html>

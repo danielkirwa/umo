@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login and Register</title>
+  <link rel="stylesheet" type="text/css" href="css/auth.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <!-- Navigation Bar -->
+    <nav>
+      <div class="logo">MyBrand</div>
+      <div class="menu">
+        <a href="index.html">Home</a>
+        <a href="#">About</a>
+        <a href="#login-form">Login</a>
+        <a href="#register-form">Register</a>
+      </div>
+    </nav>
+
+    <!-- Login/Register Container -->
+    <div class="container">
+      <!-- Login Form -->
+      <div class="form-container login-form active" id="login-form">
+        <h2>Login</h2>
+        <form>
+          <div class="error" id="login-error"></div>
+          <input type="email" id="login-email" placeholder="Enter email " required />
+          <button type="button" id="btnreset">Reset now</button><br><br>
+          <label id="lbreset" style="color:black;">Reset password link will be sent to the given email ensure you provide correct email.<br> <i> check your inbox for the link if missing chech on your spam folder.</i></label><br><br>
+        </form>
+        <a href="auth.html" class="toggle-btn">I have an account? Back to login</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="alertBox" style="z-index: 1000;">
+  <h2 id="alertTitle"></h2>
+  <p id="alertMessage" style="color:black;"></p>
+  <center>
+  <button onclick="hideAlert()">OK</button>
+  </center>
+</div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.2.5/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.5/firebase-auth.js"></script>
+<script type="text/javascript" src="js/config.js"></script>
+  <script type="text/javascript" src="js/reset.js"></script>
+</body>
+</html>
