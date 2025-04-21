@@ -88,7 +88,6 @@ hamburger.addEventListener("click", () => {
         document.getElementById("train-name").innerText = fullName;
         document.getElementById("train-age").innerText = age;
         document.getElementById("train-protocol").innerText = protocol;
-
         document.getElementById("trainModal").style.display = "block";
       } else {
         alert("End user not found.");
@@ -139,13 +138,12 @@ function calculateAge(dob) {
       const data = childSnapshot.val();
 
       const row = document.createElement("tr");
-
+      let newAge =calculateAge(data.dateOfBirth);
+      
       row.innerHTML = `
         <td>${data.firstName}</td>
         <td>${data.lastName}</td>
-        <td>${data.dateOfBirth}</td>
-        <td>${data.sex}</td>
-        <td>${data.handedness}</td>
+        <td>${newAge}</td>
         <td>
           <button onclick="endUserProtocal('${key}')">Train</button>
           <button onclick="deleteEndUser('${key}')">Delete</button>
