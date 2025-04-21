@@ -12,10 +12,12 @@
     <div class="nav-wrapper">
   <div class="hamburger" id="hamburger">&#9776;</div>
   <nav id="nav-menu">
-    <a href="#">Dashboard</a>
-    <a href="#">Sessions</a>
-    <a href="#">My Protocol</a>
-    <a href="#">Profile</a>
+   <!--
+<a href="#">Dashboard</a>
+<a href="#">Sessions</a>
+<a href="#">My Protocol</a>
+<a href="#">Profile</a>
+-->
     <a href="#" onclick="logout()">Logout</a>
   </nav>
 </div>
@@ -30,17 +32,35 @@
       </div>
 
       <div class="card-row">
-        <div class="card big" id="current-session">
+        <div class="card" id="current-session">
           <h3>Current Session & Protocol</h3>
-          <p>Coming soon: Display current session details here.</p>
+          
+          <div id="trainModal" class="modal">
+             <div class="modal-content">
+               <h2>Training Details</h2>
+               <p><strong>Name:</strong> <span id="train-name"></span></p>
+               <p><strong>Age:</strong> <span id="train-age"></span></p>
+               <p><strong>Protocol:</strong> <span id="train-protocol"></span></p>
+               <button type="button" onclick="closeTrainModal()">Close</button>
+             </div>
+           </div>
         </div>
 
         <div class="card" id="my-users">
           <h3>My Users</h3>
-          <ul id="user-list">
-            <li>Child 1</li>
-            <li>Child 2</li>
-          </ul>
+          <table id="enduser-table" border="1">
+  <thead>
+    <tr>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>DOB</th>
+      <th>Sex</th>
+      <th>Handedness</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
         </div>
       </div>
 
@@ -60,11 +80,54 @@
       </div>
     </div>
   </main>
+
+   <!-- Modal Form for Adding User -->
+  <div id="addUserModal" class="modal">
+    <div class="modal-content">
+      <h2>Add New User</h2>
+      <form id="add-user-form">
+        <label>First Name: <input type="text" id="child-first-name" required style="width:100%;" /></label>
+        <label>Last Name: <input type="text" id="child-last-name" required style="width:100%;" /></label>
+        <label>Date of Birth: <input type="date" id="child-dob" required style="width:100%;" /></label>
+        <label>Sex:
+          <select id="child-sex" required>
+            <option value="">Select</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        </label>
+        <label>Handedness:</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox" id="left-handed"  style="background: teal;" /> Left</label>
+          <label><input type="checkbox" id="right-handed" /> Right</label>
+        </div>
+        <label>Please describe the behavior of the end user and what would you like to accomplish with neurofeedback training:
+          <textarea id="behavior-desc" maxlength="3000" placeholder="Up to 3000 characters"></textarea>
+        </label>
+        <label>Upload relevant documentation:
+          <input type="file" id="support-doc" style="width:100%;"/>
+        </label>
+        <button type="submit">Submit</button>
+        <button type="button" onclick="closeModal()">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+
+   <div id="alertBox" style="z-index: 1000;">
+  <h2 id="alertTitle"></h2>
+  <p id="alertMessage" style="color:black;"></p>
+  <center>
+  <button onclick="hideAlert()">OK</button>
+  </center>
+</div>
   
   <!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/8.2.5/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.16.0/firebase-database.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.2.5/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.5/firebase-storage.js"></script>
 <script type="text/javascript" src="js/config.js"></script>
 <script type="text/javascript" src="js/dash.js"></script>
 
