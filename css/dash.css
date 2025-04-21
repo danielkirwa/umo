@@ -318,12 +318,12 @@ ul {
   #enduser-table th, #enduser-table td {
     padding: 12px 15px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 0px solid #ddd;
   }
 
-  #enduser-table tr td:hover {
+/*  #enduser-table tr td:hover {
     background-color: #f1f9ff;
-  }
+  }*/
 
   #enduser-table button {
     width: 100%;
@@ -360,7 +360,7 @@ ul {
 
     #enduser-table tr {
       margin-bottom: 15px;
-      border: 1px solid #ccc;
+      border: 0px solid #ccc;
       border-radius: 10px;
       padding: 10px;
     }

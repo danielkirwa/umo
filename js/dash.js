@@ -138,11 +138,12 @@ function calculateAge(dob) {
       const data = childSnapshot.val();
 
       const row = document.createElement("tr");
-      let newAge = calculateAge(data.dateOfBirth);
+      let newAge =  `(${calculateAge(data.dateOfBirth)}) Subscription ends on 30/April/2024 Performedsession 5`;
+
       let listName = data.firstName + " " + data.lastName;
       row.innerHTML = `
-        <td>${listName}</td>
-        <td>${newAge}</td>
+        <td>${listName + newAge}</td>
+
        
       `;
 
