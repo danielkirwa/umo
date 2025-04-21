@@ -138,16 +138,12 @@ function calculateAge(dob) {
       const data = childSnapshot.val();
 
       const row = document.createElement("tr");
-      let newAge =calculateAge(data.dateOfBirth);
-      
+      let newAge = calculateAge(data.dateOfBirth);
+      let listName = data.firstName + " " + data.lastName;
       row.innerHTML = `
-        <td>${data.firstName}</td>
-        <td>${data.lastName}</td>
+        <td>${listName}</td>
         <td>${newAge}</td>
-        <td>
-          <button onclick="endUserProtocal('${key}')">Train</button>
-          <button onclick="deleteEndUser('${key}')">Delete</button>
-        </td>
+       
       `;
 
       tableBody.appendChild(row);
