@@ -1,4 +1,6 @@
-
+var success = "&#9989; Success";
+var failed = "&#10060; Failed";
+var warning = "&#10071; Warning";
 const hamburger = document.getElementById("hamburger");
 const navMenu = document.getElementById("nav-menu");
 let usernamedisplay = document.getElementById('usernamedisplay');
@@ -134,21 +136,31 @@ function calculateAge(dob) {
     tableBody.innerHTML = ""; // Clear existing rows
 
     snapshot.forEach((childSnapshot) => {
-      const key = childSnapshot.key;
-      const data = childSnapshot.val();
+  const key = childSnapshot.key;
+  const data = childSnapshot.val();
 
-      const row = document.createElement("tr");
-      let newAge =  `(${calculateAge(data.dateOfBirth)}) | Subscription ends on 30/April/2024 | Performed sessions 5`;
+  const row = document.createElement("tr");
+  row.setAttribute("data-key", key); // attach the key
 
-      let listName = data.firstName + " " + data.lastName;
-      row.innerHTML = `
-        <td>${listName + newAge}</td>
+  let newAge = `(${calculateAge(data.dateOfBirth)}) | Subscription ends on 30/April/2024 | Performed sessions 5`;
+  let listName = data.firstName + " " + data.lastName + " ";
 
-       
-      `;
+  row.innerHTML = `
+    <td>${listName + newAge}</td>
+  `;
 
-      tableBody.appendChild(row);
-    });
+  // Make the row clickable
+  row.addEventListener("click", function () {
+    const selectedKey = this.getAttribute("data-key");
+    //console.log("Clicked End User Key:", selectedKey);
+    myAlert(success,"Clicked End User Key:" + selectedKey )
+    // You can now call another function and pass this key to fetch more info
+    // e.g., loadEndUserProtocol(selectedKey);
+  });
+
+  document.querySelector("#enduser-table tbody").appendChild(row);
+});
+
   });
 }
 
