@@ -321,9 +321,9 @@ ul {
     border-bottom: 0px solid #ddd;
   }
 
-/*  #enduser-table tr td:hover {
-    background-color: #f1f9ff;
-  }*/
+ #enduser-table tr:hover {
+   cursor: pointer;
+  }
 
   #enduser-table button {
     width: 100%;
