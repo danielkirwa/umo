@@ -1,6 +1,5 @@
 function loadUsersWithNoProtocol() {
   const enduserRef = firebase.database().ref("enduser");
-
   enduserRef.once('value', (snapshot) => {
     const tableBody = document.querySelector("#no-protocol-users tbody");
     tableBody.innerHTML = ""; // Clear existing rows
@@ -15,7 +14,7 @@ function loadUsersWithNoProtocol() {
         if (protocol.includes("not yet")) {
           const fullName = `${user.firstName} ${user.lastName}`;
           const age = calculateAge(user.dateOfBirth);
-
+          console.log(key)
           const row = document.createElement("tr");
           row.setAttribute("data-key", key);
           row.setAttribute("data-user-email", userEmailSnap.key);
@@ -39,7 +38,8 @@ function calculateAge(dob) {
 
 // Example handler when admin clicks to assign protocol
 function assignProtocol(userEmailKey, endUserKey) {
-  alert(`Assign protocol to ${endUserKey} under ${userEmailKey}`);
-  // Redirect or open modal logic can go here
+  const url = `protocolchart.html?user=${encodeURIComponent(userEmailKey)}&enduser=${encodeURIComponent(endUserKey)}`;
+  window.location.href = url; // You can also use window.open(url, "_blank") if you prefer a new tab
 }
+
 loadUsersWithNoProtocol();
