@@ -4,7 +4,7 @@ const urlParams = new URLSearchParams(window.location.search);
 
     firebase.auth().onAuthStateChanged((user) => {
       if (!user) {
-        alert("You must be logged in.");
+        window.location.href = 'auth.html';
         return;
       }
 
