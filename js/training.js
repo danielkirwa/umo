@@ -14,9 +14,9 @@ const urlParams = new URLSearchParams(window.location.search);
         if (!data) return;
 
         const age = calculateAge(data.dateOfBirth);
+        document.getElementById("user-title").textContent = `${data.firstName} ${data.lastName}`;
 
        document.getElementById("details").innerHTML = `
-             <p><strong>Name:</strong> ${data.firstName} ${data.lastName}</p>
              <p><strong>Age:</strong> ${age}</p>
              <p><strong>Program Started on :</strong> 12/12/2024</p>
              <p><strong>Program Ended on :</strong> 12/12/2025</p>
