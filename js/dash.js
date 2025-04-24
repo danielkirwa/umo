@@ -151,12 +151,13 @@ function calculateAge(dob) {
 
   // Make the row clickable
   row.addEventListener("click", function () {
-    const selectedKey = this.getAttribute("data-key");
-    //console.log("Clicked End User Key:", selectedKey);
-    myAlert(success,"Clicked End User Key:" + selectedKey )
-    // You can now call another function and pass this key to fetch more info
-    // e.g., loadEndUserProtocol(selectedKey);
-  });
+  const selectedKey = this.getAttribute("data-key");
+  const fullName = `${data.firstName}-${data.lastName}`.replace(/\s+/g, '');
+  const userKey = sanitizedEmail;
+
+  const url = `training.html?user=${userKey}&key=${selectedKey}`;
+  window.location.href = url;
+});
 
   document.querySelector("#enduser-table tbody").appendChild(row);
 });
