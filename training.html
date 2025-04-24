@@ -12,7 +12,7 @@
 <body>
    <div class="card-row">
     <div class="card">
-    <h2 id="user-title">Details</h2>
+    <b><h2 id="user-title">Details</h2></b>
     <div id="details">Loading...</div>
   </div>
         <div class="card bg-white p-6 rounded-2xl shadow-xl space-y-6 max-w-3xl mx-auto">
@@ -24,7 +24,12 @@
       Submit Text
     </button>
   </div>
-
+ <!-- Display Submitted Text -->
+  <div>
+    <h3 class="text-lg font-semibold text-gray-800 mb-2">Submitted Text:</h3>
+    <div id="submittedText" class="min-h-[80px] bg-gray-100 p-4 rounded-lg border border-gray-200 text-gray-700 whitespace-pre-wrap"></div>
+  </div>
+<hr class="border-t-4 border-black my-4">
   <!-- PDF Upload Section -->
   <div>
     <label for="pdfUpload" class="block text-lg font-semibold text-gray-800 mb-2">Upload a PDF</label>
@@ -39,11 +44,7 @@
     <h3 class="text-lg font-semibold text-gray-800 mb-2">Uploaded PDFs:</h3>
     <ul id="pdfList" class="list-disc list-inside text-gray-700 space-y-1"></ul>
   </div>
-   <!-- Display Submitted Text -->
-  <div>
-    <h3 class="text-lg font-semibold text-gray-800 mb-2">Submitted Text:</h3>
-    <div id="submittedText" class="min-h-[80px] bg-gray-100 p-4 rounded-lg border border-gray-200 text-gray-700 whitespace-pre-wrap"></div>
-  </div>
+
 
 </div>
 
