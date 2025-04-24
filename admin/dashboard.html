@@ -5,6 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Customer Dashboard</title>
   <link rel="stylesheet" href="../css/dash.css" />
+  <style type="text/css">
+    table a{
+      text-decoration: none;
+      color: black;
+    }
+     table a:hover{
+      text-decoration: none;
+      color: black;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -28,206 +39,12 @@
 
         <div class="card big" id="my-users">
           <h3>Active user</h3>
-          <table id="no-protocol-users" border="1">
+          <table id="no-protocol-users" border="0">
            <thead>
-             <tr><th>End User (Click to Assign Protocol)</th></tr>
+             <tr><th>End User (Click to open chart)</th></tr>
            </thead>
            <tbody></tbody>
          </table>
-        </div>
-      </div>
-
-      <div class="card-row">
-        <div class="card" id="subscription-time">
-          <h3>Channel 1</h3>
-          <div id="protocol-options-container" style="padding: 20px; background: #f9f9f9; border-radius: 10px;">
-<div id="protocol-options-container" style="padding: 20px; background: #f0f8ff; border-radius: 10px;">
-  <div class="protocol-item">
-    <p><strong>Delta:</strong></p>
-    <label><input type="radio" name="protocol1" value="Uptrain"> Uptrain</label>
-    <label><input type="radio" name="protocol1" value="Downtrain"> Downtrain</label>
-  </div>
-  <div class="protocol-item">
-    <p><strong>Theta:</strong></p>
-    <label><input type="radio" name="protocol3" value="Uptrain"> Uptrain</label>
-    <label><input type="radio" name="protocol3" value="Downtrain"> Downtrain</label>
-  </div>
-
-  <div class="protocol-item">
-    <p><strong>Alpha:</strong></p>
-    <label><input type="radio" name="protocol4" value="Uptrain"> Uptrain</label>
-    <label><input type="radio" name="protocol4" value="Downtrain"> Downtrain</label>
-  </div>
-
-  <div class="protocol-item">
-    <p><strong>SMR:</strong></p>
-    <label><input type="radio" name="protocol5" value="Uptrain"> Uptrain</label>
-    <label><input type="radio" name="protocol5" value="Downtrain"> Downtrain</label>
-  </div>
-
-  <div class="protocol-item">
-    <p><strong>Beta 1:</strong></p>
-    <label><input type="radio" name="protocol6" value="Uptrain"> Uptrain</label>
-    <label><input type="radio" name="protocol6" value="Downtrain"> Downtrain</label>
-  </div>
-  <div class="protocol-item">
-    <p><strong>Beta 2:</strong></p>
-    <label><input type="radio" name="protocol7" value="Uptrain"> Uptrain</label>
-    <label><input type="radio" name="protocol7" value="Downtrain"> Downtrain</label>
-  </div>
-  <div class="protocol-item">
-    <p><strong>Gamma:</strong></p>
-    <label><input type="radio" name="protocol8" value="Uptrain"> Uptrain</label>
-    <label><input type="radio" name="protocol8" value="Downtrain"> Downtrain</label>
-  </div>
-</div>
- 
-</div>
-        </div>
-
-
-        <div class="card" id="subscription-time">
-          <h3>Channel 2</h3>
-          <div id="protocol-options-container" style="padding: 20px; background: #f9f9f9; border-radius: 10px;">
-<div id="protocol-options-container" style="padding: 20px; background: #f0f8ff; border-radius: 10px;">
-
-  <div class="protocol-item">
-    <p><strong>Delta:</strong></p>
-    <label><input type="radio" name="protocol1" value="Uptrain"> Uptrain</label>
-    <label><input type="radio" name="protocol1" value="Downtrain"> Downtrain</label>
-  </div>
-  <div class="protocol-item">
-    <p><strong>Theta:</strong></p>
-    <label><input type="radio" name="protocol3" value="Uptrain"> Uptrain</label>
-    <label><input type="radio" name="protocol3" value="Downtrain"> Downtrain</label>
-  </div>
-
-  <div class="protocol-item">
-    <p><strong>Alpha:</strong></p>
-    <label><input type="radio" name="protocol4" value="Uptrain"> Uptrain</label>
-    <label><input type="radio" name="protocol4" value="Downtrain"> Downtrain</label>
-  </div>
-
-  <div class="protocol-item">
-    <p><strong>SMR:</strong></p>
-    <label><input type="radio" name="protocol5" value="Uptrain"> Uptrain</label>
-    <label><input type="radio" name="protocol5" value="Downtrain"> Downtrain</label>
-  </div>
-
-  <div class="protocol-item">
-    <p><strong>Beta 1:</strong></p>
-    <label><input type="radio" name="protocol6" value="Uptrain"> Uptrain</label>
-    <label><input type="radio" name="protocol6" value="Downtrain"> Downtrain</label>
-  </div>
-  <div class="protocol-item">
-    <p><strong>Beta 2:</strong></p>
-    <label><input type="radio" name="protocol7" value="Uptrain"> Uptrain</label>
-    <label><input type="radio" name="protocol7" value="Downtrain"> Downtrain</label>
-  </div>
-  <div class="protocol-item">
-    <p><strong>Gamma:</strong></p>
-    <label><input type="radio" name="protocol8" value="Uptrain"> Uptrain</label>
-    <label><input type="radio" name="protocol8" value="Downtrain"> Downtrain</label>
-  </div>
-</div>
- 
-</div>
-        </div>
-
-
-        <div class="card" id="subscription-time">
-          <h3>Channel 3</h3>
-          <div id="protocol-options-container" style="padding: 20px; background: #f9f9f9; border-radius: 10px;">
-<div id="protocol-options-container" style="padding: 20px; background: #f0f8ff; border-radius: 10px;">
-
-  <div class="protocol-item">
-    <p><strong>Delta:</strong></p>
-    <label><input type="radio" name="protocol1" value="Uptrain"> Uptrain</label>
-    <label><input type="radio" name="protocol1" value="Downtrain"> Downtrain</label>
-  </div>
-  <div class="protocol-item">
-    <p><strong>Theta:</strong></p>
-    <label><input type="radio" name="protocol3" value="Uptrain"> Uptrain</label>
-    <label><input type="radio" name="protocol3" value="Downtrain"> Downtrain</label>
-  </div>
-
-  <div class="protocol-item">
-    <p><strong>Alpha:</strong></p>
-    <label><input type="radio" name="protocol4" value="Uptrain"> Uptrain</label>
-    <label><input type="radio" name="protocol4" value="Downtrain"> Downtrain</label>
-  </div>
-
-  <div class="protocol-item">
-    <p><strong>SMR:</strong></p>
-    <label><input type="radio" name="protocol5" value="Uptrain"> Uptrain</label>
-    <label><input type="radio" name="protocol5" value="Downtrain"> Downtrain</label>
-  </div>
-
-  <div class="protocol-item">
-    <p><strong>Beta 1:</strong></p>
-    <label><input type="radio" name="protocol6" value="Uptrain"> Uptrain</label>
-    <label><input type="radio" name="protocol6" value="Downtrain"> Downtrain</label>
-  </div>
-  <div class="protocol-item">
-    <p><strong>Beta 2:</strong></p>
-    <label><input type="radio" name="protocol7" value="Uptrain"> Uptrain</label>
-    <label><input type="radio" name="protocol7" value="Downtrain"> Downtrain</label>
-  </div>
-  <div class="protocol-item">
-    <p><strong>Gamma:</strong></p>
-    <label><input type="radio" name="protocol8" value="Uptrain"> Uptrain</label>
-    <label><input type="radio" name="protocol8" value="Downtrain"> Downtrain</label>
-  </div>
-</div>
- 
-</div>
-        </div>
-        <div class="card" id="subscription-time">
-          <h3>Channel 4</h3>
-          <div id="protocol-options-container" style="padding: 20px; background: #f9f9f9; border-radius: 10px;">
-<div id="protocol-options-container" style="padding: 20px; background: #f0f8ff; border-radius: 10px;">
-
-  <div class="protocol-item">
-    <p><strong>Delta:</strong></p>
-    <label><input type="radio" name="protocol1" value="Uptrain"> Uptrain</label>
-    <label><input type="radio" name="protocol1" value="Downtrain"> Downtrain</label>
-  </div>
-  <div class="protocol-item">
-    <p><strong>Theta:</strong></p>
-    <label><input type="radio" name="protocol3" value="Uptrain"> Uptrain</label>
-    <label><input type="radio" name="protocol3" value="Downtrain"> Downtrain</label>
-  </div>
-
-  <div class="protocol-item">
-    <p><strong>Alpha:</strong></p>
-    <label><input type="radio" name="protocol4" value="Uptrain"> Uptrain</label>
-    <label><input type="radio" name="protocol4" value="Downtrain"> Downtrain</label>
-  </div>
-
-  <div class="protocol-item">
-    <p><strong>SMR:</strong></p>
-    <label><input type="radio" name="protocol5" value="Uptrain"> Uptrain</label>
-    <label><input type="radio" name="protocol5" value="Downtrain"> Downtrain</label>
-  </div>
-
-  <div class="protocol-item">
-    <p><strong>Beta 1:</strong></p>
-    <label><input type="radio" name="protocol6" value="Uptrain"> Uptrain</label>
-    <label><input type="radio" name="protocol6" value="Downtrain"> Downtrain</label>
-  </div>
-  <div class="protocol-item">
-    <p><strong>Beta 2:</strong></p>
-    <label><input type="radio" name="protocol7" value="Uptrain"> Uptrain</label>
-    <label><input type="radio" name="protocol7" value="Downtrain"> Downtrain</label>
-  </div>
-  <div class="protocol-item">
-    <p><strong>Gamma:</strong></p>
-    <label><input type="radio" name="protocol8" value="Uptrain"> Uptrain</label>
-    <label><input type="radio" name="protocol8" value="Downtrain"> Downtrain</label>
-  </div>
-</div>
- 
-</div>
         </div>
       </div>
     </div>
