@@ -56,3 +56,28 @@ function calculateAge(dob) {
   const ageDiff = Date.now() - birthDate.getTime();
   return Math.floor(ageDiff / (1000 * 60 * 60 * 24 * 365.25));
 }
+
+// hide ans show window
+
+
+// Add event listeners
+window.addEventListener("DOMContentLoaded", function () {
+  const protocolWindow = document.getElementById("protocolwindow");
+  const isOpen = localStorage.getItem("protocolWindowOpen");
+
+  if (isOpen == "true") {
+    protocolWindow.classList.remove("hidden");
+  }else{
+    protocolWindow.classList.add("hidden");
+  }
+
+});
+document.getElementById("add-protocol-btn").addEventListener("click", function () {
+  document.getElementById("protocolwindow").classList.remove("hidden");
+  localStorage.setItem("protocolWindowOpen", "true");
+});
+document.getElementById("close-btn").addEventListener("click", function () {
+  document.getElementById("protocolwindow").classList.add("hidden");
+  localStorage.setItem("protocolWindowOpen", "false");
+});
+

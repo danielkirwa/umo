@@ -11,13 +11,13 @@
 <body>
   <div style="display: flex; align-items: center;">
   <b><h2 id="user-title">Details</h2></b> &nbsp; &nbsp; &nbsp; &nbsp;
-   <button id="add-user-btn" style="float: right;">+ Add Protocol
+   <button id="add-protocol-btn" style="float: right;">+ Add Protocol</button>
    </div><br>
   <div class="card" style="border: 1px solid #ccc; padding: 20px; border-radius: 8px; background: #f9f9f9;">
     <div id="protocol-details">Loading user data...</div>
   </div>
 <br><br>
-      <div class="card-row">
+      <div class="card-row" id="protocolwindow" class="hidden flex flex-wrap gap-4" style="">
         <div class="card" id="channel-1">
   <h3>
     <label><input type="checkbox" class="channel-select" data-channel="1"> Channel 1</label>
@@ -217,7 +217,12 @@
  
 </div>
         </div>
+       
       </div>
+       <div>
+           <button id="add-user-btn">Save Protocol</button>
+            <button id="close-btn">Close Window</button>
+        </div>
       <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
