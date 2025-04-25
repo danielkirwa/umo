@@ -63,21 +63,31 @@ function calculateAge(dob) {
 // Add event listeners
 window.addEventListener("DOMContentLoaded", function () {
   const protocolWindow = document.getElementById("protocolwindow");
+  const closebtn =  document.getElementById("close-btn");
+  const saveprotocolbtn =  document.getElementById("save-protocol-btn");
   const isOpen = localStorage.getItem("protocolWindowOpen");
 
   if (isOpen == "true") {
     protocolWindow.classList.remove("hidden");
+    closebtn.classList.remove("hidden");
+    saveprotocolbtn.classList.remove("hidden");
   }else{
     protocolWindow.classList.add("hidden");
+    closebtn.classList.add("hidden");
+    saveprotocolbtn.classList.add("hidden");
   }
 
 });
 document.getElementById("add-protocol-btn").addEventListener("click", function () {
   document.getElementById("protocolwindow").classList.remove("hidden");
+  document.getElementById("close-btn").classList.remove("hidden");
+  document.getElementById("save-protocol-btn").classList.remove("hidden");
   localStorage.setItem("protocolWindowOpen", "true");
 });
 document.getElementById("close-btn").addEventListener("click", function () {
   document.getElementById("protocolwindow").classList.add("hidden");
+  document.getElementById("close-btn").classList.add("hidden");
+  document.getElementById("save-protocol-btn").classList.add("hidden");
   localStorage.setItem("protocolWindowOpen", "false");
 });
 
