@@ -15,12 +15,31 @@ if (!userEmailKey || !endUserKey) {
       if (snapshot.exists()) {
         const user = snapshot.val();
         const age = calculateAge(user.dateOfBirth);
-
+         document.getElementById("user-title").innerText = `${user.firstName} ${user.lastName}`;
         document.getElementById("protocol-details").innerHTML = `
-          <p><strong>Name:</strong> ${user.firstName} ${user.lastName}</p>
           <p><strong>Age:</strong> ${age}</p>
           <p><strong>Sex:</strong> ${user.sex}</p>
-          <p><strong>Protocol:</strong> ${user.protocol || user.protocal || "Not yet set"}</p>
+          <p><strong>Program Started on :</strong> 12/12/2024</p>
+             <p><strong>Program Ended on :</strong> 12/12/2025</p>
+             <p><strong>Number Of Performed Sessions :</strong> 23</p>
+          <div class="mt-4">
+               <p><strong>Session List:</strong></p>
+               <div class="space-y-2 mt-2">
+                 <div class="border rounded-lg p-3 bg-gray-50 shadow-sm">
+                   <p><strong>Session Number:</strong> 1</p>
+                   <p><strong>Duration:</strong> 30 mins</p>
+                   <p><strong>Date:</strong> 12/01/2025 10:00AM</p>
+                   <p><strong>Protocol:</strong>Protocol 1</p>
+                 </div>
+                 <div class="border rounded-lg p-3 bg-gray-50 shadow-sm">
+                   <p><strong>Session Number:</strong> 2</p>
+                   <p><strong>Duration:</strong> 25 mins</p>
+                   <p><strong>Date:</strong> 14/01/2025 2:00PM</p>
+                   <p><strong>Protocol:</strong>Protocol 1</p>
+                 </div>
+                 <!-- Add more session cards here dynamically if needed -->
+               </div>
+             </div>
         `;
       } else {
         document.getElementById("protocol-details").innerText = "User not found.";
