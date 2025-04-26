@@ -6,14 +6,40 @@
  <link rel="stylesheet" type="text/css" href="../css/dash.css">
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; }
+    /* Basic button styles */
+.button1 {
+    background-color: #1E90FF; 
+    color: white;              
+    font-size: 16px;           
+    padding: 12px 24px;     
+    border: none;              
+    border-radius: 8px;       
+    cursor: pointer;          
+    transition: background-color 0.3s ease, transform 0.2s ease; 
+}
+.button2 {
+    background-color: crimson; 
+    color: white;              
+    font-size: 16px;           
+    padding: 12px 24px;     
+    border: none;              
+    border-radius: 8px;       
+    cursor: pointer;          
+    transition: background-color 0.3s ease, transform 0.2s ease; 
+}
+
   </style>
 </head>
 <body>
+  <div style="display: flex; align-items: center;">
+  <b><h2 id="user-title">Details</h2></b> &nbsp; &nbsp; &nbsp; &nbsp;
+   <button id="add-protocol-btn" style="float: right;" class="button1">+ Add Protocol</button>
+   </div><br>
   <div class="card" style="border: 1px solid #ccc; padding: 20px; border-radius: 8px; background: #f9f9f9;">
     <div id="protocol-details">Loading user data...</div>
   </div>
 <br><br>
-      <div class="card-row">
+      <div class="card-row" id="protocolwindow" class="hidden flex flex-wrap gap-4" style="">
         <div class="card" id="channel-1">
   <h3>
     <label><input type="checkbox" class="channel-select" data-channel="1"> Channel 1</label>
@@ -213,7 +239,13 @@
  
 </div>
         </div>
+         
       </div>
+     <div>
+           <button id="save-protocol-btn" class="hidden button1">Save Protocol</button>
+            <button id="close-btn" class="hidden button2">Close Window</button>
+        </div>
+      <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
