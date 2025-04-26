@@ -44,6 +44,27 @@ function assignProtocol(userEmailKey, endUserKey) {
 
 loadUsersWithNoProtocol();
 
+// selected user type filter 
+ const selectElement = document.getElementById("user-type-select");
+  const displayElement = document.getElementById("usertypefilter");
+
+  // Load saved value on page load
+  window.addEventListener("DOMContentLoaded", () => {
+    const savedValue = localStorage.getItem("selectedUserType");
+    if (savedValue) {
+      selectElement.value = savedValue;
+      displayElement.textContent = savedValue;
+    }
+  });
+
+  // Save and update value when changed
+  selectElement.addEventListener("change", function () {
+    const selectedValue = this.value;
+    localStorage.setItem("selectedUserType", selectedValue);
+    displayElement.textContent = selectedValue;
+  });
+
+
 
 function logout(){
   // body...
