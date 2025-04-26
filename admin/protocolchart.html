@@ -31,9 +31,21 @@
   </style>
 </head>
 <body>
+  <header>
+    <div class="logo" style="height:40px">
+      <img src="../assets/logo2.png" style="height:40px">
+    </div>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="#" onclick="logout()">Logout</a>
+    </nav>
+  </header>
+  <br>
   <div style="display: flex; align-items: center;">
-  <b><h2 id="user-title">Details</h2></b> &nbsp; &nbsp; &nbsp; &nbsp;
-   <button id="add-protocol-btn" style="float: right;" class="button1">+ Add Protocol</button>
+    &nbsp; &nbsp; &nbsp;<strong><h3 id="user-title" style="font-size: 24px">Details</h3></strong> &nbsp; &nbsp; &nbsp; &nbsp;
+  <label>Protocol </label>&nbsp; &nbsp; &nbsp; &nbsp;
+   <button id="add-protocol-btn" style="float: right;" class="button1">Edit Protocol</button>&nbsp; &nbsp; &nbsp; &nbsp;
+   <button id="end-subcription-btn" class="button2">End Subcription</button>
    </div><br>
   <div class="card" style="border: 1px solid #ccc; padding: 20px; border-radius: 8px; background: #f9f9f9;">
     <div id="protocol-details">Loading user data...</div>

@@ -15,11 +15,42 @@
       color: black;
       font-weight: bold;
     }
+     .dropdown-container {
+    position: relative;
+    display: inline-block;
+    width: 220px;
+  }
+
+  .custom-select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    font-size: 16px;
+    color: #333;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='gray' height='18' viewBox='0 0 24 24' width='18' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 18px 18px;
+    cursor: pointer;
+  }
+
+  .custom-select:focus {
+    border-color: #1E90FF;
+    outline: none;
+    box-shadow: 0 0 5px rgba(30, 144, 255, 0.5);
+  }
   </style>
 </head>
 <body>
   <header>
-    <div class="logo">MyBrand</div>
+    <div class="logo">
+      <img src="../assets/logo2.png" height="40px">
+    </div>
     <nav>
       <a href="#">Dashboard</a>
       <a href="#">Sessions</a>
@@ -38,10 +69,18 @@
       <div class="card-row">
 
         <div class="card big" id="my-users">
-          <h3>Active user</h3>
+          <h3 id="usertypefilter">##</h3>
           <table id="no-protocol-users" border="0">
            <thead>
-             <tr><th>End User (Click to open chart)</th></tr>
+             
+               <div class="dropdown-container">
+                <select id="user-type-select" class="custom-select">
+                  <option value="New users">New users</option>
+                  <option value="Active users">Active users</option>
+                  <option value="Past users">Past users</option>
+                </select>
+              </div>
+
            </thead>
            <tbody></tbody>
          </table>

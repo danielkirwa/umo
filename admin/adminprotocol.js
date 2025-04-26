@@ -17,6 +17,7 @@ if (!userEmailKey || !endUserKey) {
         const age = calculateAge(user.dateOfBirth);
          document.getElementById("user-title").innerText = `${user.firstName} ${user.lastName}`;
         document.getElementById("protocol-details").innerHTML = `
+          <p><strong>Assignee :</strong> </p>
           <p><strong>Age:</strong> ${age}</p>
           <p><strong>Sex:</strong> ${user.sex}</p>
           <p><strong>Program Started on :</strong> 12/12/2024</p>
@@ -91,3 +92,17 @@ document.getElementById("close-btn").addEventListener("click", function () {
   localStorage.setItem("protocolWindowOpen", "false");
 });
 
+
+
+
+// check if user is authenticated
+auth.onAuthStateChanged(function(user){
+      if(user){
+         email = user.email;
+        //alert("Active user" + email);
+         usernamedisplay.innerHTML = email;
+      }else{
+        //alert("No Active user");
+        window.location.href='../auth.html';
+      }
+    })

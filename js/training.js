@@ -51,3 +51,16 @@ const urlParams = new URLSearchParams(window.location.search);
       const ageDate = new Date(diff);
       return Math.abs(ageDate.getUTCFullYear() - 1970);
     }
+
+
+// check if user is authenticated
+    auth.onAuthStateChanged(function(user){
+      if(user){
+         email = user.email;
+        //alert("Active user" + email);
+         usernamedisplay.innerHTML = email;
+      }else{
+        //alert("No Active user");
+        window.location.href='auth.html';
+      }
+    })
