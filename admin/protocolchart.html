@@ -47,9 +47,32 @@
    <button id="add-protocol-btn" style="float: right;" class="button1">Edit Protocol</button>&nbsp; &nbsp; &nbsp; &nbsp;
    <button id="end-subcription-btn" class="button2">End Subcription</button>
    </div><br>
+   <div class="card-row">
   <div class="card" style="border: 1px solid #ccc; padding: 20px; border-radius: 8px; background: #f9f9f9;">
     <div id="protocol-details">Loading user data...</div>
   </div>
+<!-- -->
+ <div class="card bg-white p-6 rounded-2xl shadow-xl space-y-6 max-w-3xl mx-auto">
+      <!-- Text Input Section -->
+ <!-- Display Submitted Text -->
+  <div>
+    <h3 class="text-lg font-semibold text-gray-800 mb-2">Submitted Text:</h3>
+    <div id="submittedText" class="min-h-[80px] bg-gray-100 p-4 rounded-lg border border-gray-200 text-gray-700 whitespace-pre-wrap"></div>
+  </div>
+  </div>
+        <div class="card bg-white p-6 rounded-2xl shadow-xl space-y-6 max-w-3xl mx-auto">
+
+
+  <!-- List of Uploaded PDFs -->
+  <div>
+    <h3 class="text-lg font-semibold text-gray-800 mb-2">Uploaded PDFs:</h3>
+    <ul id="pdfList" class="list-disc list-inside text-gray-700 space-y-1"></ul>
+  </div>
+
+
+</div>
+</div>
+  <!--- -->
 <br><br>
       <div class="card-row" id="protocolwindow" class="hidden flex flex-wrap gap-4" style="">
         <div class="card" id="channel-1">
@@ -104,7 +127,7 @@
 
         <div class="card" id="channel-2">
   <h3>
-    <label><input type="checkbox" class="channel-select" data-channel="1"> Channel 1</label>
+    <label><input type="checkbox" class="channel-select" data-channel="1"> Channel 2</label>
   </h3>
           <div id="protocol-options-container" style="padding: 20px; background: #f9f9f9; border-radius: 10px;">
 <div id="protocol-options-container" style="padding: 20px; background: #f0f8ff; border-radius: 10px;">
@@ -155,7 +178,7 @@
 
        <div class="card" id="channel-3">
   <h3>
-    <label><input type="checkbox" class="channel-select" data-channel="1"> Channel 1</label>
+    <label><input type="checkbox" class="channel-select" data-channel="1"> Channel 3</label>
   </h3>
           <div id="protocol-options-container" style="padding: 20px; background: #f9f9f9; border-radius: 10px;">
 <div id="protocol-options-container" style="padding: 20px; background: #f0f8ff; border-radius: 10px;">
@@ -204,7 +227,7 @@
         </div>
        <div class="card" id="channel-4">
   <h3>
-    <label><input type="checkbox" class="channel-select" data-channel="1"> Channel 1</label>
+    <label><input type="checkbox" class="channel-select" data-channel="1"> Channel 4</label>
   </h3>
           <div id="protocol-options-container" style="padding: 20px; background: #f9f9f9; border-radius: 10px;">
 <div id="protocol-options-container" style="padding: 20px; background: #f0f8ff; border-radius: 10px;">
