@@ -27,6 +27,29 @@
     cursor: pointer;          
     transition: background-color 0.3s ease, transform 0.2s ease; 
 }
+ .custom-select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    font-size: 16px;
+    color: #333;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='gray' height='18' viewBox='0 0 24 24' width='18' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 18px 18px;
+    cursor: pointer;
+  }
+
+  .custom-select:focus {
+    border-color: #1E90FF;
+    outline: none;
+    box-shadow: 0 0 5px rgba(30, 144, 255, 0.5);
+  }
 
   </style>
 </head>
@@ -44,8 +67,7 @@
   <div style="display: flex; align-items: center;">
     &nbsp; &nbsp; &nbsp;<strong><h3 id="user-title" style="font-size: 24px">Details</h3></strong> &nbsp; &nbsp; &nbsp; &nbsp;
   <label>Protocol </label>&nbsp; &nbsp; &nbsp; &nbsp;
-   <button id="add-protocol-btn" style="float: right;" class="button1">Edit Protocol</button>&nbsp; &nbsp; &nbsp; &nbsp;
-   <button id="end-subcription-btn" class="button2">End Subcription</button>
+   <button id="add-protocol-btn" style="float: right;" class="button1">Edit Protocol</button>&nbsp;
    </div><br>
    <div class="card-row">
   <div class="card" style="border: 1px solid #ccc; padding: 20px; border-radius: 8px; background: #f9f9f9;">
@@ -79,21 +101,47 @@
   <h3>
     <label><input type="checkbox" class="channel-select" data-channel="1"> Channel 1</label>
   </h3>
+  <!-- channel dropdown -->
+          <div class="dropdown-container">
+                <select id="user-type-select" class="custom-select">
+                  <option value="Fp1">Fp1</option>
+                  <option value="FP">FP</option>
+                  <option value="F7">F7</option>
+                  <option value="F3">F3</option>
+                  <option value="Fz">Fz</option>
+                  <option value="F4">F4</option>
+                  <option value="F8">F8</option>
+                  <option value="A1">A1</option>
+                  <option value="T3">T3</option>
+                  <option value="C3">C3</option>
+                  <option value="C2">C2</option>
+                  <option value="C4">C4</option>
+                  <option value="T4">T4</option>
+                  <option value="A2">A2</option>
+                  <option value="T5">T5</option>
+                  <option value="P3">P3</option>
+                  <option value="Pz">Pz</option>
+                  <option value="P4">P4</option>
+                  <option value="P6">P6</option>
+                  <option value="01">01</option>
+                  <option value="01">01</option>
+                </select>
+         </div>
           <div id="protocol-options-container" style="padding: 20px; background: #f9f9f9; border-radius: 10px;">
 <div id="protocol-options-container" style="padding: 20px; background: #f0f8ff; border-radius: 10px;">
   <div class="protocol-item">
-    <p><strong>Delta:</strong></p>
+    <p><strong>&delta;</strong></p>
     <label><input type="radio" name="protocol1" value="Uptrain"> Uptrain</label>
     <label><input type="radio" name="protocol1" value="Downtrain"> Downtrain</label>
   </div>
   <div class="protocol-item">
-    <p><strong>Theta:</strong></p>
+    <p><strong> &theta;</strong></p>
     <label><input type="radio" name="protocol3" value="Uptrain"> Uptrain</label>
     <label><input type="radio" name="protocol3" value="Downtrain"> Downtrain</label>
   </div>
 
   <div class="protocol-item">
-    <p><strong>Alpha:</strong></p>
+    <p><strong>&alpha;</strong></p>
     <label><input type="radio" name="protocol4" value="Uptrain"> Uptrain</label>
     <label><input type="radio" name="protocol4" value="Downtrain"> Downtrain</label>
   </div>
@@ -105,17 +153,17 @@
   </div>
 
   <div class="protocol-item">
-    <p><strong>Beta 1:</strong></p>
+    <p><strong> &beta;1</strong></p>
     <label><input type="radio" name="protocol6" value="Uptrain"> Uptrain</label>
     <label><input type="radio" name="protocol6" value="Downtrain"> Downtrain</label>
   </div>
   <div class="protocol-item">
-    <p><strong>Beta 2:</strong></p>
+    <p><strong> &beta;2</strong></p>
     <label><input type="radio" name="protocol7" value="Uptrain"> Uptrain</label>
     <label><input type="radio" name="protocol7" value="Downtrain"> Downtrain</label>
   </div>
   <div class="protocol-item">
-    <p><strong>Gamma:</strong></p>
+    <p><strong> &gamma;</strong></p>
     <label><input type="radio" name="protocol8" value="Uptrain"> Uptrain</label>
     <label><input type="radio" name="protocol8" value="Downtrain"> Downtrain</label>
   </div>
@@ -129,22 +177,48 @@
   <h3>
     <label><input type="checkbox" class="channel-select" data-channel="1"> Channel 2</label>
   </h3>
+  <!-- channel dropdown -->
+   <div class="dropdown-container">
+                <select id="user-type-select" class="custom-select">
+                  <option value="Fp1">Fp1</option>
+                  <option value="FP">FP</option>
+                  <option value="F7">F7</option>
+                  <option value="F3">F3</option>
+                  <option value="Fz">Fz</option>
+                  <option value="F4">F4</option>
+                  <option value="F8">F8</option>
+                  <option value="A1">A1</option>
+                  <option value="T3">T3</option>
+                  <option value="C3">C3</option>
+                  <option value="C2">C2</option>
+                  <option value="C4">C4</option>
+                  <option value="T4">T4</option>
+                  <option value="A2">A2</option>
+                  <option value="T5">T5</option>
+                  <option value="P3">P3</option>
+                  <option value="Pz">Pz</option>
+                  <option value="P4">P4</option>
+                  <option value="P6">P6</option>
+                  <option value="01">01</option>
+                  <option value="01">01</option>
+                </select>
+         </div>
           <div id="protocol-options-container" style="padding: 20px; background: #f9f9f9; border-radius: 10px;">
 <div id="protocol-options-container" style="padding: 20px; background: #f0f8ff; border-radius: 10px;">
 
   <div class="protocol-item">
-    <p><strong>Delta:</strong></p>
+    <p><strong>&delta;</strong></p>
     <label><input type="radio" name="protocolc1" value="Uptrain"> Uptrain</label>
     <label><input type="radio" name="protocolc21" value="Downtrain"> Downtrain</label>
   </div>
   <div class="protocol-item">
-    <p><strong>Theta:</strong></p>
+    <p><strong> &theta;</strong></p>
     <label><input type="radio" name="protocolc22" value="Uptrain"> Uptrain</label>
     <label><input type="radio" name="protocolc22" value="Downtrain"> Downtrain</label>
   </div>
 
   <div class="protocol-item">
-    <p><strong>Alpha:</strong></p>
+    <p><strong>&alpha;</strong></p>
     <label><input type="radio" name="protocolc23" value="Uptrain"> Uptrain</label>
     <label><input type="radio" name="protocolc23" value="Downtrain"> Downtrain</label>
   </div>
@@ -156,17 +230,17 @@
   </div>
 
   <div class="protocol-item">
-    <p><strong>Beta 1:</strong></p>
+    <p><strong> &beta;1</strong></p>
     <label><input type="radio" name="protocolc25" value="Uptrain"> Uptrain</label>
     <label><input type="radio" name="protocolc25" value="Downtrain"> Downtrain</label>
   </div>
   <div class="protocol-item">
-    <p><strong>Beta 2:</strong></p>
+    <p><strong> &beta;2</strong></p>
     <label><input type="radio" name="protocolc26" value="Uptrain"> Uptrain</label>
     <label><input type="radio" name="protocolc26" value="Downtrain"> Downtrain</label>
   </div>
   <div class="protocol-item">
-    <p><strong>Gamma:</strong></p>
+    <p><strong> &gamma;</strong></p>
     <label><input type="radio" name="protocolc27" value="Uptrain"> Uptrain</label>
     <label><input type="radio" name="protocolc27" value="Downtrain"> Downtrain</label>
   </div>
@@ -178,24 +252,50 @@
 
        <div class="card" id="channel-3">
   <h3>
-    <label><input type="checkbox" class="channel-select" data-channel="1"> Channel 3</label>
+    <label><input type="checkbox" class="channel-select" data-channel="1"> Channel 3</label> 
   </h3>
+  <!-- channel dropdown -->
+   <div class="dropdown-container">
+                <select id="user-type-select" class="custom-select">
+                  <option value="Fp1">Fp1</option>
+                  <option value="FP">FP</option>
+                  <option value="F7">F7</option>
+                  <option value="F3">F3</option>
+                  <option value="Fz">Fz</option>
+                  <option value="F4">F4</option>
+                  <option value="F8">F8</option>
+                  <option value="A1">A1</option>
+                  <option value="T3">T3</option>
+                  <option value="C3">C3</option>
+                  <option value="C2">C2</option>
+                  <option value="C4">C4</option>
+                  <option value="T4">T4</option>
+                  <option value="A2">A2</option>
+                  <option value="T5">T5</option>
+                  <option value="P3">P3</option>
+                  <option value="Pz">Pz</option>
+                  <option value="P4">P4</option>
+                  <option value="P6">P6</option>
+                  <option value="01">01</option>
+                  <option value="01">01</option>
+                </select>
+         </div>
           <div id="protocol-options-container" style="padding: 20px; background: #f9f9f9; border-radius: 10px;">
 <div id="protocol-options-container" style="padding: 20px; background: #f0f8ff; border-radius: 10px;">
 
   <div class="protocol-item">
-    <p><strong>Delta:</strong></p>
+    <p><strong>&delta;</strong></p>
     <label><input type="radio" name="protocolc31" value="Uptrain"> Uptrain</label>
     <label><input type="radio" name="protocolc31" value="Downtrain"> Downtrain</label>
   </div>
   <div class="protocol-item">
-    <p><strong>Theta:</strong></p>
+    <p><strong> &theta;</strong></p>
     <label><input type="radio" name="protocolc32" value="Uptrain"> Uptrain</label>
     <label><input type="radio" name="protocolc32" value="Downtrain"> Downtrain</label>
   </div>
 
   <div class="protocol-item">
-    <p><strong>Alpha:</strong></p>
+    <p><strong>&alpha;</strong></p>
     <label><input type="radio" name="protocolc33" value="Uptrain"> Uptrain</label>
     <label><input type="radio" name="protocolc33" value="Downtrain"> Downtrain</label>
   </div>
@@ -207,17 +307,17 @@
   </div>
 
   <div class="protocol-item">
-    <p><strong>Beta 1:</strong></p>
+    <p><strong> &beta;1</strong></p>
     <label><input type="radio" name="protocolc35" value="Uptrain"> Uptrain</label>
     <label><input type="radio" name="protocolc35" value="Downtrain"> Downtrain</label>
   </div>
   <div class="protocol-item">
-    <p><strong>Beta 2:</strong></p>
+    <p><strong> &beta;2</strong></p>
     <label><input type="radio" name="protocolc36" value="Uptrain"> Uptrain</label>
     <label><input type="radio" name="protocolc36" value="Downtrain"> Downtrain</label>
   </div>
   <div class="protocol-item">
-    <p><strong>Gamma:</strong></p>
+    <p><strong> &gamma;</strong></p>
     <label><input type="radio" name="protocolc37" value="Uptrain"> Uptrain</label>
     <label><input type="radio" name="protocolc37" value="Downtrain"> Downtrain</label>
   </div>
@@ -229,22 +329,48 @@
   <h3>
     <label><input type="checkbox" class="channel-select" data-channel="1"> Channel 4</label>
   </h3>
+  <!-- channel dropdown -->
+   <div class="dropdown-container">
+                <select id="user-type-select" class="custom-select">
+                  <option value="Fp1">Fp1</option>
+                  <option value="FP">FP</option>
+                  <option value="F7">F7</option>
+                  <option value="F3">F3</option>
+                  <option value="Fz">Fz</option>
+                  <option value="F4">F4</option>
+                  <option value="F8">F8</option>
+                  <option value="A1">A1</option>
+                  <option value="T3">T3</option>
+                  <option value="C3">C3</option>
+                  <option value="C2">C2</option>
+                  <option value="C4">C4</option>
+                  <option value="T4">T4</option>
+                  <option value="A2">A2</option>
+                  <option value="T5">T5</option>
+                  <option value="P3">P3</option>
+                  <option value="Pz">Pz</option>
+                  <option value="P4">P4</option>
+                  <option value="P6">P6</option>
+                  <option value="01">01</option>
+                  <option value="01">01</option>
+                </select>
+         </div>
           <div id="protocol-options-container" style="padding: 20px; background: #f9f9f9; border-radius: 10px;">
 <div id="protocol-options-container" style="padding: 20px; background: #f0f8ff; border-radius: 10px;">
 
   <div class="protocol-item">
-    <p><strong>Delta:</strong></p>
+    <p><strong>&delta;</strong></p>
     <label><input type="radio" name="protocolc41" value="Uptrain"> Uptrain</label>
     <label><input type="radio" name="protocolc41" value="Downtrain"> Downtrain</label>
   </div>
   <div class="protocol-item">
-    <p><strong>Theta:</strong></p>
+    <p><strong> &theta;</strong></p>
     <label><input type="radio" name="protocolc42" value="Uptrain"> Uptrain</label>
     <label><input type="radio" name="protocolc42" value="Downtrain"> Downtrain</label>
   </div>
 
   <div class="protocol-item">
-    <p><strong>Alpha:</strong></p>
+    <p><strong>&alpha;</strong></p>
     <label><input type="radio" name="protocolc43" value="Uptrain"> Uptrain</label>
     <label><input type="radio" name="protocolc43" value="Downtrain"> Downtrain</label>
   </div>
@@ -256,17 +382,17 @@
   </div>
 
   <div class="protocol-item">
-    <p><strong>Beta 1:</strong></p>
+    <p><strong> &beta;1</strong></p>
     <label><input type="radio" name="protocolc45" value="Uptrain"> Uptrain</label>
     <label><input type="radio" name="protocolc45" value="Downtrain"> Downtrain</label>
   </div>
   <div class="protocol-item">
-    <p><strong>Beta 2:</strong></p>
+    <p><strong> &beta;2</strong></p>
     <label><input type="radio" name="protocolc46" value="Uptrain"> Uptrain</label>
     <label><input type="radio" name="protocolc46" value="Downtrain"> Downtrain</label>
   </div>
   <div class="protocol-item">
-    <p><strong>Gamma:</strong></p>
+    <p><strong> &gamma;</strong></p>
     <label><input type="radio" name="protocolc47" value="Uptrain"> Uptrain</label>
     <label><input type="radio" name="protocolc47" value="Downtrain"> Downtrain</label>
   </div>
