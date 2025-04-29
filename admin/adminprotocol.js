@@ -239,6 +239,34 @@ saveprotocolbtn.addEventListener('click', () => {
 })
 
 
+
+
+// load protocol
+function loadProtocols(parentKey, childKey) {
+  const db = firebase.database();
+  const protocolsRef = ref(db, `endUsers/${parentKey}/childAccounts/${childKey}/protocols`);
+  onValue(protocolsRef, snapshot => {
+    const data = snapshot.val();
+    if (data) {
+      Object.entries(data).forEach(([protocolId, protocolData]) => {
+        renderProtocolCard(protocolId, protocolData);
+      });
+    }
+  });
+}
+
+function renderProtocolCard(protocolId, protocolData) {
+  // Create DOM elements dynamically
+  // For each channel inside protocolData.channels
+  // Set dropdown value and mark checked Uptrain/Downtrain as per data
+  // Show status: protocolData.status (Active/Closed)
+  let activeprotocol = document.getElementById('active-protocol');
+  activeprotocol.innerHTML = protocolData;
+}
+loadProtocols(userEmailKey, endUserKey);
+
+
+
 // check if user is authenticated
 auth.onAuthStateChanged(function(user){
       if(user){
