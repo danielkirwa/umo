@@ -93,6 +93,42 @@ document.getElementById("close-btn").addEventListener("click", function () {
 });
 
 
+// get new protocol for the user
+
+function getAllSelectedChannelData() {
+  const allChannelData = [];
+
+  document.querySelectorAll('.channel-select:checked').forEach(checkbox => {
+    const channelId = checkbox.dataset.channel;
+
+    const dropdown = document.getElementById(`channel-${channelId}-stream`);
+    const selectedStream = dropdown ? dropdown.value : null;
+
+    const radioContainer = document.querySelector(`#protocol-options-container-channel-${channelId}`);
+    const selectedRadios = radioContainer.querySelectorAll('input[type="radio"]:checked');
+
+    const selectedProtocols = {};
+    selectedRadios.forEach(radio => {
+      selectedProtocols[radio.name] = radio.value;
+    });
+
+    allChannelData.push({
+      channel: channelId,
+      stream: selectedStream,
+      protocols: selectedProtocols
+    });
+  });
+
+  return allChannelData;
+}
+
+// Example usage:
+
+let saveprotocolbtn = document.getElementById('save-protocol-btn');
+saveprotocolbtn.addEventListener('click', () => {
+  const selectedData = getAllSelectedChannelData();
+console.log(selectedData);
+})
 
 
 // check if user is authenticated
