@@ -242,27 +242,72 @@ saveprotocolbtn.addEventListener('click', () => {
 
 
 // load protocol
+const container = document.getElementById('active-protocol');
 function loadProtocols(parentKey, childKey) {
   const db = firebase.database();
-  const protocolsRef = ref(db, `endUsers/${parentKey}/childAccounts/${childKey}/protocols`);
-  onValue(protocolsRef, snapshot => {
+  const protocolsRef = db.ref(`endUsers/${parentKey}/childAccounts/${childKey}/protocols`);
+    protocolsRef.on("value", snapshot => {
     const data = snapshot.val();
     if (data) {
       Object.entries(data).forEach(([protocolId, protocolData]) => {
-        renderProtocolCard(protocolId, protocolData);
+        const card = renderProtocolCard(protocolId, protocolData);
+        container.appendChild(card);
       });
+    } else {
+      container.innerHTML = '<p>No protocols found.</p>';
     }
   });
+
+  
+ 
 }
 
 function renderProtocolCard(protocolId, protocolData) {
-  // Create DOM elements dynamically
-  // For each channel inside protocolData.channels
-  // Set dropdown value and mark checked Uptrain/Downtrain as per data
-  // Show status: protocolData.status (Active/Closed)
-  let activeprotocol = document.getElementById('active-protocol');
-  activeprotocol.innerHTML = protocolData;
+  const card = document.createElement('div');
+  card.className = 'protocol-card';
+  card.style.border = '1px solid #ccc';
+  card.style.padding = '10px';
+  card.style.marginBottom = '15px';
+  card.style.borderRadius = '10px';
+  card.style.backgroundColor = '#fafafa';
+
+  const header = document.createElement('h3');
+  header.textContent = `🧠 ${protocolId.toUpperCase()} — ${protocolData.status || 'Unknown'}`;
+  card.appendChild(header);
+
+  const info = document.createElement('p');
+  info.innerHTML = `
+    <strong>Description:</strong> ${protocolData.description || 'N/A'}<br>
+    <strong>Duration:</strong> ${protocolData.duration || 'N/A'}<br>
+    <strong>Start:</strong> ${protocolData.startDate || 'N/A'}<br>
+    <strong>Stop:</strong> ${protocolData.stopDate || 'N/A'}
+  `;
+  card.appendChild(info);
+
+  // Channels
+  const channels = protocolData.channels || {};
+  Object.entries(channels).forEach(([channelKey, protocolItems]) => {
+    const channelDiv = document.createElement('div');
+    channelDiv.style.marginTop = '10px';
+
+    const title = document.createElement('strong');
+    title.textContent = `Channel ${channelKey.replace('channel_', '')}`;
+    channelDiv.appendChild(title);
+
+    const ul = document.createElement('ul');
+    Object.entries(protocolItems).forEach(([band, value]) => {
+      const li = document.createElement('li');
+      li.textContent = `${band}: ${value === "Uptrain" ? '🔼 Uptrain' : '🔽 Downtrain'}`;
+      ul.appendChild(li);
+    });
+
+    channelDiv.appendChild(ul);
+    card.appendChild(channelDiv);
+  });
+
+  return card;
 }
+
 loadProtocols(userEmailKey, endUserKey);
 
 
