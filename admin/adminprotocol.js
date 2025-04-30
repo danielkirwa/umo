@@ -93,6 +93,223 @@ document.getElementById("close-btn").addEventListener("click", function () {
 });
 
 
+// get new protocol for the user
+
+// Run on page load and any change in radio button
+window.addEventListener('DOMContentLoaded', () => {
+  updateRadioColors();
+});
+
+// Color logic on change
+document.querySelectorAll('input[type="radio"]').forEach(radio => {
+  radio.addEventListener('change', () => {
+    updateRadioColors();
+  });
+});
+
+// Color uptrain (green) and downtrain (red)
+function updateRadioColors() {
+  document.querySelectorAll('.card').forEach(card => {
+    card.querySelectorAll('.protocol-item').forEach(item => {
+      item.querySelectorAll('input[type="radio"]').forEach(radio => {
+        const label = radio.parentElement;
+        label.style.color = ''; // reset
+
+        if (radio.checked) {
+          label.style.color = radio.value === 'Uptrain' ? 'green' : 'red';
+        }
+      });
+    });
+  });
+}
+
+// Function to extract selected data for all checked channels
+function getSelectedChannelData() {
+  const data = [];
+
+  document.querySelectorAll('.card').forEach(card => {
+    const checkbox = card.querySelector('input[type="checkbox"]');
+
+    if (checkbox && checkbox.checked) {
+      const channelId = checkbox.id;
+      const channelNumber = checkbox.dataset.channel;
+
+      const dropdown = card.querySelector('select');
+      const dropdownValue = dropdown ? dropdown.value : null;
+
+      const selectedRadios = {};
+      card.querySelectorAll('.protocol-item').forEach(item => {
+        const radios = item.querySelectorAll('input[type="radio"]');
+        radios.forEach(radio => {
+          if (radio.checked) {
+            const name = radio.name;
+            selectedRadios[name] = radio.value;
+          }
+        });
+      });
+
+      data.push({
+        channelId,
+        channelNumber,
+        dropdownValue,
+        protocols: selectedRadios
+      });
+    }
+  });
+
+  return data;
+}
+
+function saveProtocolToFirebase(parentEmail, childName, protocolMeta, channelsData) {
+  const db = firebase.database();
+  const sanitizedEmail = parentEmail.replace(/\./g, "_dot_").replace(/@/g, "_at_");
+  const protocolsRef = db.ref(`endUsers/${sanitizedEmail}/childAccounts/${childName}/protocols`);
+  const newProtocolRef = protocolsRef.push();
+  const protocolId = newProtocolRef.key;
+
+  // Convert frontend channel data into backend structure
+  const channelsObj = {};
+  channelsData.forEach((channel, index) => {
+    const chKey = `channel_${channel.channelNumber}`;
+    const mapped = {};
+
+    Object.entries(channel.protocols).forEach(([name, value]) => {
+      // Example: "protocolc32": "Uptrain" → "Gamma": 1
+      // This assumes names are structured like "protocolc32"
+      let label = name.replace(/^\D+/, ""); // extract number
+      label = parseInt(label) % 10; // get band number (just example logic)
+      const bandNames = ["Delta", "Theta", "Alpha", "SMR", "Beta1", "Beta2", "Gamma"];
+      const band = bandNames[label] || `Unknown${label}`;
+      mapped[band] = value === "Uptrain" ? 1 : 0;
+    });
+
+    channelsObj[chKey] = mapped;
+  });
+
+  const protocolData = {
+    duration: protocolMeta.duration,
+    startDate: protocolMeta.startDate,
+    stopDate: protocolMeta.stopDate,
+    description: protocolMeta.description,
+    status: protocolMeta.status || "active",
+    channels: channelsObj,
+    sessions: {}
+  };
+
+  return newProtocolRef.set(protocolData)
+    .then(() => {
+      console.log("✅ Protocol saved:", protocolId);
+      alert("Protocol saved successfully!");
+    })
+    .catch(error => {
+      console.error("❌ Error saving protocol:", error);
+      alert("Error saving protocol");
+    });
+}
+
+// Example usage:
+
+let saveprotocolbtn = document.getElementById('save-protocol-btn');
+saveprotocolbtn.addEventListener('click', () => {
+ // const selectedData = getSelectedChannelData();
+//console.log(selectedData);
+   const parentEmail = userEmailKey // replace with actual dynamic user
+  const childName = endUserKey // replace dynamically too
+  const channelsData = getSelectedChannelData();
+
+  const protocolMeta = {
+    duration: "30",
+    startDate: "24-4-2025",
+    stopDate: "23-5-2025",
+    description: "New added",
+    status: "Active"
+  };
+
+  if (!protocolMeta.duration || !protocolMeta.startDate || !protocolMeta.stopDate) {
+    alert("Please fill in all protocol fields.");
+    return;
+  }
+
+  if (channelsData.length === 0) {
+    alert("Select at least one channel with protocols.");
+    return;
+  }
+
+  saveProtocolToFirebase(parentEmail, childName, protocolMeta, channelsData);
+})
+
+
+
+
+// load protocol
+const container = document.getElementById('active-protocol');
+function loadProtocols(parentKey, childKey) {
+  const db = firebase.database();
+  const protocolsRef = db.ref(`endUsers/${parentKey}/childAccounts/${childKey}/protocols`);
+    protocolsRef.on("value", snapshot => {
+    const data = snapshot.val();
+    if (data) {
+      Object.entries(data).forEach(([protocolId, protocolData]) => {
+        const card = renderProtocolCard(protocolId, protocolData);
+        container.appendChild(card);
+      });
+    } else {
+      container.innerHTML = '<p>No protocols found.</p>';
+    }
+  });
+
+  
+ 
+}
+
+function renderProtocolCard(protocolId, protocolData) {
+  const card = document.createElement('div');
+  card.className = 'protocol-card';
+  card.style.border = '1px solid #ccc';
+  card.style.padding = '10px';
+  card.style.marginBottom = '15px';
+  card.style.borderRadius = '10px';
+  card.style.backgroundColor = '#fafafa';
+
+  const header = document.createElement('h3');
+  header.textContent = `🧠 ${protocolId.toUpperCase()} — ${protocolData.status || 'Unknown'}`;
+  card.appendChild(header);
+
+  const info = document.createElement('p');
+  info.innerHTML = `
+    <strong>Description:</strong> ${protocolData.description || 'N/A'}<br>
+    <strong>Duration:</strong> ${protocolData.duration || 'N/A'}<br>
+    <strong>Start:</strong> ${protocolData.startDate || 'N/A'}<br>
+    <strong>Stop:</strong> ${protocolData.stopDate || 'N/A'}
+  `;
+  card.appendChild(info);
+
+  // Channels
+  const channels = protocolData.channels || {};
+  Object.entries(channels).forEach(([channelKey, protocolItems]) => {
+    const channelDiv = document.createElement('div');
+    channelDiv.style.marginTop = '10px';
+
+    const title = document.createElement('strong');
+    title.textContent = `Channel ${channelKey.replace('channel_', '')}`;
+    channelDiv.appendChild(title);
+
+    const ul = document.createElement('ul');
+    Object.entries(protocolItems).forEach(([band, value]) => {
+      const li = document.createElement('li');
+      li.textContent = `${band}: ${value === "Uptrain" ? '🔼 Uptrain' : '🔽 Downtrain'}`;
+      ul.appendChild(li);
+    });
+
+    channelDiv.appendChild(ul);
+    card.appendChild(channelDiv);
+  });
+
+  return card;
+}
+
+loadProtocols(userEmailKey, endUserKey);
+
 
 
 // check if user is authenticated
@@ -100,7 +317,7 @@ auth.onAuthStateChanged(function(user){
       if(user){
          email = user.email;
         //alert("Active user" + email);
-         usernamedisplay.innerHTML = email;
+         //usernamedisplay.innerHTML = email;
       }else{
         //alert("No Active user");
         window.location.href='../auth.html';
