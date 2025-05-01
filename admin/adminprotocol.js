@@ -296,11 +296,32 @@ function renderProtocolCard(protocolId, protocolData) {
 
     const ul = document.createElement('ul');
     Object.entries(protocolItems).forEach(([band, value]) => {
-      console.log(value)
-      const li = document.createElement('li');
-     li.innerHTML = `${band.toLowerCase()}: <span style="color: ${value == 1 ? 'green' : 'red'};">${value == 1 ? '🔼' : '🔽'}</span>`;
-      ul.appendChild(li);
-    });
+  const li = document.createElement('li');
+  let symbol = '';
+
+  // Replace band name with custom symbol
+  if (band.toLowerCase().includes('alpha')) {
+    symbol = '&alpha;';
+  } else if (band.toLowerCase().includes('beta1')) {
+    symbol = '&beta;1';
+  } else if (band.toLowerCase().includes('beta2')) {
+    symbol = '&beta;2';
+  } else if (band.toLowerCase().includes('theta')) {
+    symbol = '&theta;';
+  } else if (band.toLowerCase().includes('gamma')) {
+    symbol = '&gamma;';
+  } else if (band.toLowerCase().includes('smr')) {
+    symbol = 'smr';
+  } else if (band.toLowerCase().includes('delta')) {
+    symbol = '&delta;';
+  }else {
+    symbol = ''; // fallback symbol for unknown bands
+  }
+
+  li.innerHTML = `${symbol}: <span style="color: ${value == 1 ? 'green' : 'red'};">${value == 1 ? '🔼' : '🔽'}</span>`;
+  ul.appendChild(li);
+});
+
 
     channelDiv.appendChild(ul);
     card.appendChild(channelDiv);
