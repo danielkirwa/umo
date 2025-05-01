@@ -317,8 +317,8 @@ function renderProtocolCard(protocolId, protocolData) {
   }else {
     symbol = ''; // fallback symbol for unknown bands
   }
-
-  li.innerHTML = `${symbol}: <span style="color: ${value == 1 ? 'green' : 'red'};">${value == 1 ? '🔼' : '🔽'}</span>`;
+  //li.innerHTML = `${symbol}: <span style="color: ${value == 1 ? 'green' : 'red'};">${symbol}</span>`;
+  li.innerHTML = `<span style="color: ${value == 1 ? 'green' : 'red'};">${symbol}</span>`;
   ul.appendChild(li);
 });
 
