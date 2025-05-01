@@ -272,8 +272,8 @@ function renderProtocolCard(protocolId, protocolData) {
   card.style.backgroundColor = '#fafafa';
 
   const header = document.createElement('h3');
-  header.textContent = `🧠 ${protocolId.toUpperCase()} — ${protocolData.status || 'Unknown'}`;
-  card.appendChild(header);
+  /*header.textContent = `🧠 ${protocolId.toUpperCase()} — ${protocolData.status || 'Unknown'}`;
+  card.appendChild(header);*/
 
   const info = document.createElement('p');
   /*info.innerHTML = `
@@ -287,33 +287,33 @@ function renderProtocolCard(protocolId, protocolData) {
   // Channels
   const channels = protocolData.channels || {};
   Object.entries(channels).forEach(([channelKey, protocolItems]) => {
-    const channelDiv = document.createElement('div');
+    const channelDiv = document.createElement('span');
     channelDiv.style.marginTop = '10px';
 
     const title = document.createElement('strong');
-    title.textContent = `Channel ${channelKey.replace('channel_', '')}`;
+    title.textContent = ` Ch ${channelKey.replace('channel_', ' ')} `;
     channelDiv.appendChild(title);
 
-    const ul = document.createElement('ul');
+    const ul = document.createElement('span');
     Object.entries(protocolItems).forEach(([band, value]) => {
-  const li = document.createElement('li');
+  const li = document.createElement('label');
   let symbol = '';
 
   // Replace band name with custom symbol
   if (band.toLowerCase().includes('alpha')) {
-    symbol = '&alpha;';
+    symbol = ' &alpha;';
   } else if (band.toLowerCase().includes('beta1')) {
-    symbol = '&beta;1';
+    symbol = ' &beta;1';
   } else if (band.toLowerCase().includes('beta2')) {
-    symbol = '&beta;2';
+    symbol = ' &beta;2';
   } else if (band.toLowerCase().includes('theta')) {
-    symbol = '&theta;';
+    symbol = ' &theta;';
   } else if (band.toLowerCase().includes('gamma')) {
-    symbol = '&gamma;';
+    symbol = ' &gamma;';
   } else if (band.toLowerCase().includes('smr')) {
-    symbol = 'smr';
+    symbol = ' smr ';
   } else if (band.toLowerCase().includes('delta')) {
-    symbol = '&delta;';
+    symbol = ' &delta;';
   }else {
     symbol = ''; // fallback symbol for unknown bands
   }
