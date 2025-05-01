@@ -276,7 +276,7 @@ function renderProtocolCard(protocolId, protocolData) {
   card.appendChild(header);
 
   const info = document.createElement('p');
- /* info.innerHTML = `
+  /*info.innerHTML = `
     <strong>Description:</strong> ${protocolData.description || 'N/A'}<br>
     <strong>Duration:</strong> ${protocolData.duration || 'N/A'}<br>
     <strong>Start:</strong> ${protocolData.startDate || 'N/A'}<br>
@@ -284,7 +284,7 @@ function renderProtocolCard(protocolId, protocolData) {
   `;*/
   card.appendChild(info);
 
-  // Channels - Updated to show in paragraph format
+  // Channels
   const channels = protocolData.channels || {};
   Object.entries(channels).forEach(([channelKey, protocolItems]) => {
     const channelDiv = document.createElement('div');
@@ -294,31 +294,15 @@ function renderProtocolCard(protocolId, protocolData) {
     title.textContent = `Channel ${channelKey.replace('channel_', '')}`;
     channelDiv.appendChild(title);
 
-    // Create paragraph for band display
-    const bandParagraph = document.createElement('p');
-    
-    // Map band names to Greek letters
-    const bandMap = {
-      'Delta': 'δ',
-      'Theta': 'θ',
-      'Alpha': 'α',
-      'SMR': 'SMR',
-      'Beta1': 'β1',
-      'Beta2': 'β2',
-      'Gamma': 'γ',
-      'Unknown7': '' // You might want to map this to something else
-    };
+    const ul = document.createElement('ul');
+    Object.entries(protocolItems).forEach(([band, value]) => {
+      console.log(value)
+      const li = document.createElement('li');
+     li.innerHTML = `${band.toLowerCase()}: <span style="color: ${value == 1 ? 'green' : 'red'};">${value == 1 ? '🔼' : '🔽'}</span>`;
+      ul.appendChild(li);
+    });
 
-    // Filter and sort bands that are being trained (value = 1)
-    const activeBands = Object.entries(protocolItems)
-      .filter(([band, value]) => value == 1)
-      .map(([band]) => bandMap[band] || band);
-
-    bandParagraph.textContent = activeBands.join(' ');
-    bandParagraph.style.marginTop = '5px';
-    bandParagraph.style.fontFamily = 'monospace';
-    
-    channelDiv.appendChild(bandParagraph);
+    channelDiv.appendChild(ul);
     card.appendChild(channelDiv);
   });
 
