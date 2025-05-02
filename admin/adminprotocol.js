@@ -291,7 +291,7 @@ function renderProtocolCard(protocolId, protocolData) {
     channelDiv.style.marginTop = '10px';
 
     const title = document.createElement('strong');
-    title.textContent = ` Ch ${channelKey.replace('channel_', ' ')} `;
+    title.textContent = ` Ch${channelKey.replace('channel_', '')}`;
     channelDiv.appendChild(title);
 
     const ul = document.createElement('span');
@@ -301,19 +301,19 @@ function renderProtocolCard(protocolId, protocolData) {
 
   // Replace band name with custom symbol
   if (band.toLowerCase().includes('alpha')) {
-    symbol = ' &alpha;';
+    symbol = '&alpha;';
   } else if (band.toLowerCase().includes('beta1')) {
-    symbol = ' &beta;1';
+    symbol = '&beta;1';
   } else if (band.toLowerCase().includes('beta2')) {
-    symbol = ' &beta;2';
+    symbol = '&beta;2';
   } else if (band.toLowerCase().includes('theta')) {
-    symbol = ' &theta;';
+    symbol = '&theta;';
   } else if (band.toLowerCase().includes('gamma')) {
-    symbol = ' &gamma;';
+    symbol = '&gamma;';
   } else if (band.toLowerCase().includes('smr')) {
-    symbol = ' smr ';
+    symbol = 'SMR';
   } else if (band.toLowerCase().includes('delta')) {
-    symbol = ' &delta;';
+    symbol = '&delta;';
   }else {
     symbol = ''; // fallback symbol for unknown bands
   }
