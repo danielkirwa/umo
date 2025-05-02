@@ -11,7 +11,7 @@ function loadUsersWithNoProtocol() {
         const user = userEntries[key];
         const protocol = (user.protocol || user.protocal || "").toLowerCase(); // Catch both spellings
 
-        if (protocol.includes("not yet")) {
+        if (protocol.includes("not yet given")) {
           const fullName = `${user.firstName} ${user.lastName}`;
           const age = calculateAge(user.dateOfBirth);
           console.log(key)

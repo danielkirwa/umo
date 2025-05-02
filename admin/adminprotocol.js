@@ -91,7 +91,28 @@ document.getElementById("close-btn").addEventListener("click", function () {
   document.getElementById("save-protocol-btn").classList.add("hidden");
   localStorage.setItem("protocolWindowOpen", "false");
 });
+// selection order
+ const checkboxes = Array.from(document.querySelectorAll('.channel-select'));
 
+  checkboxes.forEach((checkbox, index) => {
+    checkbox.addEventListener('change', () => {
+      if (checkbox.checked) {
+        // Ensure all previous checkboxes are checked
+        for (let i = 0; i < index; i++) {
+          if (!checkboxes[i].checked) {
+            checkbox.checked = false;
+            alert(`You must select Channel ${i + 1} first.`);
+            return;
+          }
+        }
+      } else {
+        // If a checkbox is unchecked, uncheck all following ones
+        for (let i = index + 1; i < checkboxes.length; i++) {
+          checkboxes[i].checked = false;
+        }
+      }
+    });
+  });
 
 // get new protocol for the user
 
@@ -331,7 +352,6 @@ function renderProtocolCard(protocolId, protocolData) {
 }
 
 loadProtocols(userEmailKey, endUserKey);
-
 
 
 // check if user is authenticated
