@@ -223,22 +223,17 @@ function saveProtocolToFirebase(parentEmail, childName, protocolMeta, channelsDa
   const newProtocolRef = protocolsRef.push();
   const protocolId = newProtocolRef.key;
 
-  // Convert frontend channel data into backend structure
   const channelsObj = {};
-  channelsData.forEach((channel, index) => {
+  channelsData.forEach((channel) => {
     const chKey = `channel_${channel.channelNumber}`;
     const mapped = {};
-
     Object.entries(channel.protocols).forEach(([name, value]) => {
-      // Example: "protocolc32": "Uptrain" → "Gamma": 1
-      // This assumes names are structured like "protocolc32"
-      let label = name.replace(/^\D+/, ""); // extract number
-      label = parseInt(label) % 10; // get band number (just example logic)
+      let label = name.replace(/^\D+/, "");
+      label = parseInt(label) % 10;
       const bandNames = ["Delta", "Theta", "Alpha", "SMR", "Beta1", "Beta2", "Gamma"];
       const band = bandNames[label] || `Unknown${label}`;
       mapped[band] = value === "Uptrain" ? 1 : 0;
     });
-
     channelsObj[chKey] = mapped;
   });
 
@@ -247,12 +242,24 @@ function saveProtocolToFirebase(parentEmail, childName, protocolMeta, channelsDa
     startDate: protocolMeta.startDate,
     stopDate: protocolMeta.stopDate,
     description: protocolMeta.description,
-    status: protocolMeta.status || "active",
+    status: "active",
     channels: channelsObj,
     sessions: {}
   };
 
-  return newProtocolRef.set(protocolData)
+  // Step 1: Deactivate all existing protocols
+  return protocolsRef.once('value')
+    .then(snapshot => {
+      const updates = {};
+      snapshot.forEach(child => {
+        updates[`${child.key}/status`] = "inactive";
+      });
+      return protocolsRef.update(updates);
+    })
+    .then(() => {
+      // Step 2: Save new protocol as active
+      return newProtocolRef.set(protocolData);
+    })
     .then(() => {
       console.log("✅ Protocol saved:", protocolId);
       alert("Protocol saved successfully!");
@@ -301,8 +308,13 @@ saveprotocolbtn.addEventListener('click', () => {
 const container = document.getElementById('active-protocol');
 function loadProtocols(parentKey, childKey) {
   const db = firebase.database();
-  const protocolsRef = db.ref(`endUsers/${parentKey}/childAccounts/${childKey}/protocols`);
-    protocolsRef.on("value", snapshot => {
+  const protocolsRef = db
+    .ref(`endUsers/${parentKey}/childAccounts/${childKey}/protocols`)
+    .orderByChild("status")
+    .equalTo("active");
+
+  protocolsRef.on("value", snapshot => {
+    container.innerHTML = ""; // Clear old content
     const data = snapshot.val();
     if (data) {
       Object.entries(data).forEach(([protocolId, protocolData]) => {
@@ -310,13 +322,11 @@ function loadProtocols(parentKey, childKey) {
         container.appendChild(card);
       });
     } else {
-      container.innerHTML = '<p>No protocols found.</p>';
+      container.innerHTML = '<p>No active protocols found.</p>';
     }
   });
-
-  
- 
 }
+
 
 function renderProtocolCard(protocolId, protocolData) {
   const card = document.createElement('div');
