@@ -114,6 +114,41 @@ document.getElementById("close-btn").addEventListener("click", function () {
     });
   });
 
+  // stream selection order
+   const selects = document.querySelectorAll('.custom-select');
+
+  function updateOptions() {
+    const selectedValues = new Set();
+
+    // Collect selected values from all selects
+    selects.forEach(select => {
+      if (select.value) {
+        selectedValues.add(select.value);
+      }
+    });
+
+    // Reset all options first
+    selects.forEach(select => {
+      const currentValue = select.value;
+
+      Array.from(select.options).forEach(option => {
+        option.disabled = false;
+
+        // Disable if selected in another select
+        if (selectedValues.has(option.value) && option.value !== currentValue) {
+          option.disabled = true;
+        }
+      });
+    });
+  }
+
+  selects.forEach(select => {
+    select.addEventListener('change', updateOptions);
+  });
+
+  // Initial update in case of preset values
+  updateOptions();
+
 // get new protocol for the user
 
 // Run on page load and any change in radio button
