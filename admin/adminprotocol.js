@@ -59,7 +59,76 @@ function calculateAge(dob) {
 }
 
 // hide ans show window
+// message and chat option 
+function loadMessagesForAdmin(parentKey, childKey) {
+  const db = firebase.database();
+  const messagesRef = db.ref(`message/${parentKey}/childAccounts/${childKey}/Messages`);
+  const container = document.getElementById("messagesContainer");
 
+  messagesRef.once("value", snapshot => {
+    container.innerHTML = ""; // Clear previous
+    const data = snapshot.val();
+
+    if (!data) {
+      container.innerHTML = "<p>No messages found.</p>";
+      return;
+    }
+
+    Object.entries(data).forEach(([msgId, msgData]) => {
+      const div = document.createElement("div");
+      div.className = "bg-gray-100 p-4 rounded-lg border";
+      const time = new Date(msgData.timestamp).toLocaleString();
+      div.innerHTML = `
+        <p class="text-gray-800 whitespace-pre-wrap mb-2">${msgData.text}</p>
+        <p class="text-xs text-gray-500 mb-2">Sent: ${time}</p>
+        ${msgData.reply ? `
+          <p class="text-green-700">Reply: ${msgData.reply.replyText}</p>
+          <p class="text-xs text-green-500">Replied at: ${msgData.reply.replyTime}</p>
+        ` : `
+          <button onclick="selectMessageForReply('${msgId}', \`${msgData.text.replace(/`/g, "\\`")}\`)" 
+                  class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+            Reply
+          </button>
+        `}
+      `;
+
+      container.appendChild(div);
+    });
+  });
+}
+
+function selectMessageForReply(messageId, originalText) {
+  document.getElementById("submittedText").innerText = originalText;
+  document.getElementById("replyDisplay").innerText = "";
+  document.getElementById("replyBtn").setAttribute("onclick", `submitReply('${messageId}')`);
+}
+
+function submitReply(messageId) {
+  const replyText = document.getElementById("replyInput").value.trim();
+  if (!replyText) return alert("Please enter a reply.");
+
+  const replyData = {
+    replyText,
+    replyTime: new Date().toLocaleString()
+  };
+
+  const db = firebase.database();
+  const messageRef = db.ref(`message/${userEmailKey}/childAccounts/${endUserKey}/Messages/${messageId}`);
+
+  messageRef.update({ reply: replyData })
+    .then(() => {
+      alert("Reply sent.");
+      document.getElementById("replyInput").value = "";
+      loadMessagesForAdmin(userEmailKey, endUserKey); // refresh messages
+    })
+    .catch(err => {
+      console.error("Error sending reply:", err);
+      alert("Failed to send reply.");
+    });
+}
+
+loadMessagesForAdmin(userEmailKey, endUserKey);
+// end of chat and reply option
 
 // Add event listeners
 window.addEventListener("DOMContentLoaded", function () {

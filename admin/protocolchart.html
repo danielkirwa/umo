@@ -75,13 +75,24 @@
   </div>
 <!-- -->
  <div class="card bg-white p-6 rounded-2xl shadow-xl space-y-6 max-w-3xl mx-auto">
-      <!-- Text Input Section -->
- <!-- Display Submitted Text -->
+  <!-- Display Messages Here -->
+  <div id="messagesContainer" class="space-y-6 max-h-[200px] overflow-y-auto"></div>
+
+  <!-- Display Selected Message -->
   <div>
     <h3 class="text-lg font-semibold text-gray-800 mb-2">Submitted Text:</h3>
-    <div id="submittedText" class="min-h-[80px] bg-gray-100 p-4 rounded-lg border border-gray-200 text-gray-700 whitespace-pre-wrap"></div>
+    <div id="submittedText" class="max-h-[200px] overflow-y-auto bg-gray-100 p-4 rounded-lg border border-gray-200 text-gray-700 whitespace-pre-wrap"></div>
   </div>
+
+  <!-- Reply Input -->
+  <div class="mt-4">
+    <textarea id="replyInput" placeholder="Write your reply..." class="w-full p-3 border border-gray-300 rounded-lg resize-none"></textarea>
+    <button id="replyBtn" class="mt-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg">Send Reply</button>
   </div>
+
+  <div id="replyDisplay" class="mt-4 text-sm text-gray-700"></div>
+</div>
+
         <div class="card bg-white p-6 rounded-2xl shadow-xl space-y-6 max-w-3xl mx-auto">
 
 
