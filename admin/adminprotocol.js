@@ -230,11 +230,12 @@ function saveProtocolToFirebase(parentEmail, childName, protocolMeta, channelsDa
     Object.entries(channel.protocols).forEach(([name, value]) => {
       let label = name.replace(/^\D+/, "");
       label = parseInt(label) % 10;
-      const bandNames = ["Delta", "Theta", "Alpha", "SMR", "Beta1", "Beta2", "Gamma"];
+      const bandNames = ["Unknown","Delta", "Theta", "Alpha", "SMR", "Beta1", "Beta2", "Gamma"];
       const band = bandNames[label] || `Unknown${label}`;
       mapped[band] = value === "Uptrain" ? 1 : 0;
     });
     channelsObj[chKey] = mapped;
+    
   });
 
   const protocolData = {
