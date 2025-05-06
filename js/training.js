@@ -110,19 +110,31 @@ function loadMessages(parentKey, childKey) {
       });
 
       sortedMessages.forEach(([id, msg]) => {
-  const msgDiv = document.createElement("div");
-  const time = new Date(msg.timestamp).toLocaleString(); // Format date/time
+  const time = new Date(msg.timestamp).toLocaleString();
 
-  msgDiv.className = msg.sender === "endUser" 
-    ? "bg-blue-100 text-blue-800 p-2 rounded mb-2 self-end text-right"
-    : "bg-green-100 text-green-800 p-2 rounded mb-2 self-start text-left";
+  // User message
+  const userMsgDiv = document.createElement("div");
+  userMsgDiv.className = "bg-blue-100 text-blue-800 p-2 rounded mb-2 self-end text-right";
+  userMsgDiv.innerHTML = `
+    <div class="flex flex-col text-sm text-gray-800">
+      <span>${msg.text}</span>
+      <span class="text-xs text-gray-500">${time}</span>
+    </div>`;
+  container.appendChild(userMsgDiv);
 
-  msgDiv.innerHTML = `<div class="flex flex-col text-sm text-gray-800">
-  <span>${msg.text}</span>
-  <span class="text-xs text-gray-500">${time}</span>
-</div>`;
-  container.appendChild(msgDiv);
+  // Admin reply (if it exists)
+  if (msg.reply && msg.reply.replyText) {
+    const replyDiv = document.createElement("div");
+    replyDiv.className = "bg-green-100 text-green-800 p-2 rounded mb-2 self-start text-left";
+    replyDiv.innerHTML = `
+      <div class="flex flex-col text-sm text-gray-800">
+        <span>${msg.reply.replyText}</span>
+        <span class="text-xs text-gray-500">${msg.reply.replyTime}</span>
+      </div>`;
+    container.appendChild(replyDiv);
+  }
 });
+
 
     } else {
       container.innerHTML = "<p class='text-gray-500'>No messages yet.</p>";
