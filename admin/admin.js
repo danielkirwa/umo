@@ -1,4 +1,4 @@
-function loadUsersWithNoProtocol() {
+function loadUsersWithProtocolStatus(selectedStatus = "Not yet given") {
   const enduserRef = firebase.database().ref("enduser");
   enduserRef.once('value', (snapshot) => {
     const tableBody = document.querySelector("#no-protocol-users tbody");
@@ -9,12 +9,12 @@ function loadUsersWithNoProtocol() {
 
       for (let key in userEntries) {
         const user = userEntries[key];
-        const protocol = (user.protocol || user.protocal || "").toLowerCase(); // Catch both spellings
+        const protocol = (user.protocol || user.protocal || "").toLowerCase();
 
-        if (protocol.includes("not yet given")) {
+        if (protocol.includes(selectedStatus.toLowerCase())) {
           const fullName = `${user.firstName} ${user.lastName}`;
           const age = calculateAge(user.dateOfBirth);
-          console.log(key)
+
           const row = document.createElement("tr");
           row.setAttribute("data-key", key);
           row.setAttribute("data-user-email", userEmailSnap.key);
@@ -30,11 +30,20 @@ function loadUsersWithNoProtocol() {
   });
 }
 
+// Default load
+loadUsersWithProtocolStatus("Not yet given");
+
 function calculateAge(dob) {
   const birthDate = new Date(dob);
   const ageDiff = Date.now() - birthDate.getTime();
   return Math.floor(ageDiff / (1000 * 60 * 60 * 24 * 365.25));
 }
+
+document.getElementById("user-type-select").addEventListener("change", function() {
+  const selectedValue = this.value;
+  loadUsersWithProtocolStatus(selectedValue);
+});
+
 
 // Example handler when admin clicks to assign protocol
 function assignProtocol(userEmailKey, endUserKey) {
