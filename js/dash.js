@@ -51,7 +51,7 @@ hamburger.addEventListener("click", () => {
       sex,
       handedness,
       behaviorDescription: behaviorDesc,
-      protocal: "Not yet assigned",
+      protocol: "Not yet given",
       createdAt: new Date().toISOString()
     };
 
