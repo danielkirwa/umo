@@ -117,7 +117,7 @@ function submitReply(messageId) {
 
   messageRef.update({ reply: replyData })
     .then(() => {
-      alert("Reply sent.");
+      //alert("Reply sent.");
       document.getElementById("replyInput").value = "";
       loadMessagesForAdmin(userEmailKey, endUserKey); // refresh messages
     })
@@ -342,7 +342,7 @@ function saveProtocolToFirebase(parentEmail, childName, protocolMeta, channelsDa
       // Also update main enduser node with protocol = "Active"
       const endUserPath = `enduser/${sanitizedEmail}/${childName}`;
       firebase.database().ref(endUserPath).update({ protocol: "Active" });
-      alert("Protocol saved successfully!");
+      //alert("Protocol saved successfully!");
       hideprotocolwindow();
     })
     .catch(error => {

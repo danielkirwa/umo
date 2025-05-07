@@ -21,13 +21,13 @@ const urlParams = new URLSearchParams(window.location.search);
 
        document.getElementById("details").innerHTML = `
              <p><strong>Age:</strong> ${age}</p>
-             <p><strong>Program Started on :</strong> 12/12/2024</p>
-             <p><strong>Program Ended on :</strong> 12/12/2025</p>
-             <p><strong>Number Of Performed Sessions :</strong> 23</p>
+             <p><strong>Program Started on :</strong> </p>
+             <p><strong>Program Ended on :</strong>  </p>
+             <p><strong>Number Of Performed Sessions : </p>
   
              <div class="mt-4">
                <p><strong>Session List:</strong></p>
-               <div class="space-y-2 mt-2">
+               <!-- <div class="space-y-2 mt-2">
                  <div class="border rounded-lg p-3 bg-gray-50 shadow-sm">
                    <p><strong>Session Number:</strong> 1</p>
                    <p><strong>Duration:</strong> 30 mins</p>
@@ -40,8 +40,8 @@ const urlParams = new URLSearchParams(window.location.search);
                    <p><strong>Date:</strong> 14/01/2025 2:00PM</p>
                    <p><strong>Protocol:</strong>Protocol 1</p>
                  </div>
-                 <!-- Add more session cards here dynamically if needed -->
-               </div>
+                  Add more session cards here dynamically if needed
+               </div> -->
              </div>
          `;
 
@@ -82,7 +82,7 @@ const urlParams = new URLSearchParams(window.location.search);
   newMessageRef.set(messageData)
     .then(() => {
      // console.log("✅ Message sent.");
-      myAlert(success, "Message sent");
+      //myAlert(success, "Message sent");
       document.getElementById("messageInput").value = "";
     })
     .catch(error => {
@@ -163,10 +163,10 @@ function loadProtocols(parentKey, childKey) {
     if (data) {
       Object.entries(data).forEach(([protocolId, protocolData]) => {
         const card = renderProtocolCard(protocolId, protocolData);
-        container.appendChild(card);
+        //container.appendChild(card);
       });
     } else {
-      container.innerHTML = '<p>No active protocols found.</p>';
+      //container.innerHTML = '<p>No active protocols found.</p>';
     }
   });
 }
@@ -205,32 +205,35 @@ function renderProtocolCard(protocolId, protocolData) {
     channelDiv.appendChild(title);
 
     const ul = document.createElement('span');
-    Object.entries(protocolItems).forEach(([band, value]) => {
-  const li = document.createElement('label');
-  let symbol = '';
+    const desiredOrder = ["Delta", "Theta", "Alpha", "SMR", "Beta1", "Beta2", "Gamma"];
 
-  // Replace band name with custom symbol
-  if (band.toLowerCase().includes('alpha')) {
-    symbol = '&alpha;';
-  } else if (band.toLowerCase().includes('beta1')) {
-    symbol = '&beta;1';
-  } else if (band.toLowerCase().includes('beta2')) {
-    symbol = '&beta;2';
-  } else if (band.toLowerCase().includes('theta')) {
-    symbol = '&theta;';
-  } else if (band.toLowerCase().includes('gamma')) {
-    symbol = '&gamma;';
-  } else if (band.toLowerCase().includes('smr')) {
-    symbol = 'SMR';
-  } else if (band.toLowerCase().includes('delta')) {
-    symbol = '&delta;';
-  }else {
-    symbol = ''; // fallback symbol for unknown bands
+desiredOrder.forEach((bandName) => {
+  const value = protocolItems[bandName];
+  if (value !== undefined) {
+    const li = document.createElement('label');
+    let symbol = '';
+
+    if (bandName.toLowerCase() === 'delta') {
+      symbol = '&delta;';
+    } else if (bandName.toLowerCase() === 'theta') {
+      symbol = '&theta;';
+    } else if (bandName.toLowerCase() === 'alpha') {
+      symbol = '&alpha;';
+    } else if (bandName.toLowerCase() === 'smr') {
+      symbol = 'SMR';
+    } else if (bandName.toLowerCase() === 'beta1') {
+      symbol = '&beta;1';
+    } else if (bandName.toLowerCase() === 'beta2') {
+      symbol = '&beta;2';
+    } else if (bandName.toLowerCase() === 'gamma') {
+      symbol = '&gamma;';
+    }
+
+    li.innerHTML = `<span style="color: ${value == 1 ? 'green' : 'red'};">${symbol}</span>`;
+    ul.appendChild(li);
   }
-  //li.innerHTML = `${symbol}: <span style="color: ${value == 1 ? 'green' : 'red'};">${symbol}</span>`;
-  li.innerHTML = `<span style="color: ${value == 1 ? 'green' : 'red'};">${symbol}</span>`;
-  ul.appendChild(li);
 });
+
 
 
     channelDiv.appendChild(ul);
