@@ -470,31 +470,33 @@ function renderProtocolCard(protocolId, protocolData) {
     channelDiv.appendChild(title);
 
     const ul = document.createElement('span');
-    Object.entries(protocolItems).forEach(([band, value]) => {
-  const li = document.createElement('label');
-  let symbol = '';
+   const desiredOrder = ["Delta", "Theta", "Alpha", "SMR", "Beta1", "Beta2", "Gamma"];
 
-  // Replace band name with custom symbol
-  if (band.toLowerCase().includes('alpha')) {
-    symbol = '&alpha;';
-  } else if (band.toLowerCase().includes('beta1')) {
-    symbol = '&beta;1';
-  } else if (band.toLowerCase().includes('beta2')) {
-    symbol = '&beta;2';
-  } else if (band.toLowerCase().includes('theta')) {
-    symbol = '&theta;';
-  } else if (band.toLowerCase().includes('gamma')) {
-    symbol = '&gamma;';
-  } else if (band.toLowerCase().includes('smr')) {
-    symbol = 'SMR';
-  } else if (band.toLowerCase().includes('delta')) {
-    symbol = '&delta;';
-  }else {
-    symbol = ''; // fallback symbol for unknown bands
+desiredOrder.forEach((bandName) => {
+  const value = protocolItems[bandName];
+  if (value !== undefined) {
+    const li = document.createElement('label');
+    let symbol = '';
+
+    if (bandName.toLowerCase() === 'delta') {
+      symbol = '&delta;';
+    } else if (bandName.toLowerCase() === 'theta') {
+      symbol = '&theta;';
+    } else if (bandName.toLowerCase() === 'alpha') {
+      symbol = '&alpha;';
+    } else if (bandName.toLowerCase() === 'smr') {
+      symbol = 'SMR';
+    } else if (bandName.toLowerCase() === 'beta1') {
+      symbol = '&beta;1';
+    } else if (bandName.toLowerCase() === 'beta2') {
+      symbol = '&beta;2';
+    } else if (bandName.toLowerCase() === 'gamma') {
+      symbol = '&gamma;';
+    }
+
+    li.innerHTML = `<span style="color: ${value == 1 ? 'green' : 'red'};">${symbol}</span>`;
+    ul.appendChild(li);
   }
-  //li.innerHTML = `${symbol}: <span style="color: ${value == 1 ? 'green' : 'red'};">${symbol}</span>`;
-  li.innerHTML = `<span style="color: ${value == 1 ? 'green' : 'red'};">${symbol}</span>`;
-  ul.appendChild(li);
 });
 
 
