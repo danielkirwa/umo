@@ -331,11 +331,14 @@ function saveProtocolToFirebase(parentEmail, childName, protocolMeta, channelsDa
       return newProtocolRef.set(protocolData);
     })
     .then(() => {
-      console.log("✅ Protocol saved:", protocolId);
+      //console.log("✅ Protocol saved:", protocolId);
+      // Also update main enduser node with protocol = "Active"
+      const endUserPath = `enduser/${sanitizedEmail}/${childName}`;
+      firebase.database().ref(endUserPath).update({ protocol: "Active" });
       alert("Protocol saved successfully!");
     })
     .catch(error => {
-      console.error("❌ Error saving protocol:", error);
+      //console.error("❌ Error saving protocol:", error);
       alert("Error saving protocol");
     });
 }
