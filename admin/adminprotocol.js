@@ -23,7 +23,7 @@ if (!userEmailKey || !endUserKey) {
           <p><strong>Program Started on :</strong> 12/12/2024</p>
              <p><strong>Program Ended on :</strong> 12/12/2025</p>
              <p><strong>Number Of Performed Sessions :</strong> 23</p>
-          <div class="mt-4">
+         <!--  <div class="mt-4">
                <p><strong>Session List:</strong></p>
                <div class="space-y-2 mt-2">
                  <div class="border rounded-lg p-3 bg-gray-50 shadow-sm">
@@ -38,8 +38,8 @@ if (!userEmailKey || !endUserKey) {
                    <p><strong>Date:</strong> 14/01/2025 2:00PM</p>
                    <p><strong>Protocol:</strong>Protocol 1</p>
                  </div>
-                 <!-- Add more session cards here dynamically if needed -->
-               </div>
+                 Add more session cards here dynamically if needed
+               </div> -->
              </div>
         `;
       } else {
@@ -160,6 +160,13 @@ document.getElementById("close-btn").addEventListener("click", function () {
   document.getElementById("save-protocol-btn").classList.add("hidden");
   localStorage.setItem("protocolWindowOpen", "false");
 });
+function hideprotocolwindow() {
+  // body...
+  document.getElementById("protocolwindow").classList.add("hidden");
+  document.getElementById("close-btn").classList.add("hidden");
+  document.getElementById("save-protocol-btn").classList.add("hidden");
+  localStorage.setItem("protocolWindowOpen", "false");
+}
 // selection order
  const checkboxes = Array.from(document.querySelectorAll('.channel-select'));
 
@@ -336,6 +343,7 @@ function saveProtocolToFirebase(parentEmail, childName, protocolMeta, channelsDa
       const endUserPath = `enduser/${sanitizedEmail}/${childName}`;
       firebase.database().ref(endUserPath).update({ protocol: "Active" });
       alert("Protocol saved successfully!");
+      hideprotocolwindow();
     })
     .catch(error => {
       //console.error("❌ Error saving protocol:", error);
@@ -393,12 +401,40 @@ function loadProtocols(parentKey, childKey) {
       Object.entries(data).forEach(([protocolId, protocolData]) => {
         const card = renderProtocolCard(protocolId, protocolData);
         container.appendChild(card);
+        hideprotocolwindow();
       });
     } else {
       container.innerHTML = '<p>No active protocols found.</p>';
+      hideprotocolwindow();
     }
   });
 }
+
+// completed or closed protocol
+const container1 = document.getElementById('closed-protocol');
+function loadClosedProtocols(parentKey, childKey) {
+  const db = firebase.database();
+  const protocolsRef = db
+    .ref(`endUsers/${parentKey}/childAccounts/${childKey}/protocols`)
+    .orderByChild("status")
+    .equalTo("inactive");
+
+  protocolsRef.on("value", snapshot => {
+    container1.innerHTML = ""; // Clear old content
+    const data = snapshot.val();
+    if (data) {
+      Object.entries(data).forEach(([protocolId, protocolData]) => {
+        const card = renderClosedProtocolCard(protocolId, protocolData);
+        container1.appendChild(card);
+        hideprotocolwindow();
+      });
+    } else {
+      container1.innerHTML = '<p>No completed protocols.</p>';
+      hideprotocolwindow();
+    }
+  });
+}
+
 
 
 function renderProtocolCard(protocolId, protocolData) {
@@ -469,8 +505,77 @@ function renderProtocolCard(protocolId, protocolData) {
   return card;
 }
 
-loadProtocols(userEmailKey, endUserKey);
 
+function renderClosedProtocolCard(protocolId, protocolData) {
+  const card = document.createElement('div');
+  card.className = 'protocol-card';
+  card.style.border = '1px solid #ccc';
+  card.style.padding = '10px';
+  card.style.marginBottom = '15px';
+  card.style.borderRadius = '10px';
+  card.style.backgroundColor = '#fafafa';
+
+  const header = document.createElement('h3');
+  header.textContent = `${protocolData.status}`;
+  card.appendChild(header);
+
+  const info = document.createElement('p');
+  /*info.innerHTML = `
+    <strong>Description:</strong> ${protocolData.description || 'N/A'}<br>
+    <strong>Duration:</strong> ${protocolData.duration || 'N/A'}<br>
+    <strong>Start:</strong> ${protocolData.startDate || 'N/A'}<br>
+    <strong>Stop:</strong> ${protocolData.stopDate || 'N/A'}
+  `;*/
+  card.appendChild(info);
+
+  // Channels
+  const channels = protocolData.channels || {};
+  Object.entries(channels).forEach(([channelKey, protocolItems]) => {
+    const channelDiv = document.createElement('span');
+    channelDiv.style.marginTop = '10px';
+
+    const title = document.createElement('strong');
+    title.textContent = ` Ch${channelKey.replace('channel_', '')}`;
+    channelDiv.appendChild(title);
+
+    const ul = document.createElement('span');
+    Object.entries(protocolItems).forEach(([band, value]) => {
+  const li = document.createElement('label');
+  let symbol = '';
+
+  // Replace band name with custom symbol
+  if (band.toLowerCase().includes('alpha')) {
+    symbol = '&alpha;';
+  } else if (band.toLowerCase().includes('beta1')) {
+    symbol = '&beta;1';
+  } else if (band.toLowerCase().includes('beta2')) {
+    symbol = '&beta;2';
+  } else if (band.toLowerCase().includes('theta')) {
+    symbol = '&theta;';
+  } else if (band.toLowerCase().includes('gamma')) {
+    symbol = '&gamma;';
+  } else if (band.toLowerCase().includes('smr')) {
+    symbol = 'SMR';
+  } else if (band.toLowerCase().includes('delta')) {
+    symbol = '&delta;';
+  }else {
+    symbol = ''; // fallback symbol for unknown bands
+  }
+  //li.innerHTML = `${symbol}: <span style="color: ${value == 1 ? 'green' : 'red'};">${symbol}</span>`;
+  li.innerHTML = `<span style="color: ${value == 1 ? 'green' : 'red'};">${symbol}</span>`;
+  ul.appendChild(li);
+});
+
+
+    channelDiv.appendChild(ul);
+    card.appendChild(channelDiv);
+  });
+
+  return card;
+}
+
+loadProtocols(userEmailKey, endUserKey);
+loadClosedProtocols(userEmailKey, endUserKey);
 
 // check if user is authenticated
 auth.onAuthStateChanged(function(user){

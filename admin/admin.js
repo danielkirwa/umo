@@ -1,4 +1,5 @@
 function loadUsersWithProtocolStatus(selectedStatus = "Not yet given") {
+  console.log(selectedStatus);
   const enduserRef = firebase.database().ref("enduser");
   enduserRef.once('value', (snapshot) => {
     const tableBody = document.querySelector("#no-protocol-users tbody");
@@ -51,7 +52,7 @@ function assignProtocol(userEmailKey, endUserKey) {
   window.location.href = url; // You can also use window.open(url, "_blank") if you prefer a new tab
 }
 
-loadUsersWithNoProtocol();
+//loadUsersWithNoProtocol();
 
 // selected user type filter 
  const selectElement = document.getElementById("user-type-select");
@@ -62,7 +63,7 @@ loadUsersWithNoProtocol();
     const savedValue = localStorage.getItem("selectedUserType");
     if (savedValue) {
       selectElement.value = savedValue;
-      displayElement.textContent = savedValue;
+      //displayElement.textContent = savedValue;
     }
   });
 
@@ -70,7 +71,7 @@ loadUsersWithNoProtocol();
   selectElement.addEventListener("change", function () {
     const selectedValue = this.value;
     localStorage.setItem("selectedUserType", selectedValue);
-    displayElement.textContent = selectedValue;
+   // displayElement.textContent = selectedValue;
   });
 
 
@@ -91,7 +92,7 @@ auth.onAuthStateChanged(function(user){
       if(user){
          email = user.email;
         //alert("Active user" + email);
-         usernamedisplay.innerHTML = email;
+         //usernamedisplay.innerHTML = email;
       }else{
         //alert("No Active user");
         window.location.href='../auth.html';
