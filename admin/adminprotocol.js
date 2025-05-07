@@ -170,25 +170,64 @@ function hideprotocolwindow() {
 // selection order
  const checkboxes = Array.from(document.querySelectorAll('.channel-select'));
 
-  checkboxes.forEach((checkbox, index) => {
-    checkbox.addEventListener('change', () => {
-      if (checkbox.checked) {
-        // Ensure all previous checkboxes are checked
-        for (let i = 0; i < index; i++) {
-          if (!checkboxes[i].checked) {
-            checkbox.checked = false;
-            alert(`You must select Channel ${i + 1} first.`);
-            return;
-          }
-        }
-      } else {
-        // If a checkbox is unchecked, uncheck all following ones
-        for (let i = index + 1; i < checkboxes.length; i++) {
-          checkboxes[i].checked = false;
+checkboxes.forEach((checkbox, index) => {
+  const card = checkbox.closest('.card');
+  const dropdown = card.querySelector('.custom-select');
+  const radios = card.querySelectorAll('input[type="radio"]');
+
+  checkbox.addEventListener('change', () => {
+    if (checkbox.checked) {
+      // Check previous
+      for (let i = 0; i < index; i++) {
+        if (!checkboxes[i].checked) {
+          checkbox.checked = false;
+          alert(`You must select Channel ${i + 1} first.`);
+          return;
         }
       }
-    });
+
+      // Enable dropdown
+      dropdown.disabled = false;
+    } else {
+      // Disable dropdown and radios if unchecked
+      dropdown.disabled = true;
+      dropdown.selectedIndex = 0;
+
+      radios.forEach(r => {
+        r.checked = false;
+        r.disabled = true;
+      });
+
+      // Uncheck all later checkboxes
+      for (let i = index + 1; i < checkboxes.length; i++) {
+        checkboxes[i].checked = false;
+        const cardLater = checkboxes[i].closest('.card');
+        const dropdownLater = cardLater.querySelector('.custom-select');
+        const radiosLater = cardLater.querySelectorAll('input[type="radio"]');
+
+        dropdownLater.disabled = true;
+        dropdownLater.selectedIndex = 0;
+        radiosLater.forEach(r => {
+          r.checked = false;
+          r.disabled = true;
+        });
+      }
+    }
   });
+
+  // Handle enabling radio buttons only after dropdown selection
+  dropdown.addEventListener('change', () => {
+    if (dropdown.value !== '') {
+      radios.forEach(r => r.disabled = false);
+    } else {
+      radios.forEach(r => {
+        r.checked = false;
+        r.disabled = true;
+      });
+    }
+    updateOptions(); // maintain unique dropdown values
+  });
+});
 
   // stream selection order
    const selects = document.querySelectorAll('.custom-select');
