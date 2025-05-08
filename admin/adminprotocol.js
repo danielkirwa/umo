@@ -20,8 +20,8 @@ if (!userEmailKey || !endUserKey) {
           <p><strong>Assignee :</strong> </p>
           <p><strong>Age:</strong> ${age}</p>
           <p><strong>Sex:</strong> ${user.sex}</p>
-          <p><strong>Program Started on :</strong> 12/12/2024</p>
-             <p><strong>Program Ended on :</strong> 12/12/2025</p>
+          <p><strong>Program Started on :</strong> <input type="date" id="sd" placeholder="Start Date" required /></p>
+             <p><strong>Program Ended on :</strong> <input type="date" id="spd" placeholder="End Date" required /></p>
              <p><strong>Number Of Performed Sessions :</strong> 23</p>
          <!--  <div class="mt-4">
                <p><strong>Session List:</strong></p>
