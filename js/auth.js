@@ -96,23 +96,27 @@ btnlogin.addEventListener('click', () => {
       return;
     }
 
-    auth.createUserWithEmailAndPassword(email, password)
-      .then(userCredential => {
-        const userId = sanitizeEmail(email);
-         firebase.database().ref("users/" + userId).set({
-          firstName,
-          lastName,
-          phone,
-          dob,
-          address,
-          email,
-          createdAt: new Date().toISOString()
-        });
-        myAlert(success,"Registration done")
-      })
-      .catch(error => {
-         myAlert(success,error.message);
-      });
+  auth.createUserWithEmailAndPassword(email, password)
+  .then(userCredential => {
+    const userId = sanitizeEmail(email);
+    return firebase.database().ref("users/" + userId).set({
+      firstName,
+      lastName,
+      phone,
+      dob,
+      address,
+      email,
+      createdAt: new Date().toISOString()
+    });
+  })
+  .then(() => {
+    myAlert(success, "Registration done");
+    window.location.href = 'auth.html';
+  })
+  .catch(error => {
+    myAlert(success, error.message);
+  });
+
   }
 
 
