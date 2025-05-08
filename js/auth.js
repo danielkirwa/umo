@@ -122,6 +122,7 @@ btnlogin.addEventListener('click', () => {
   })
   .then(() => {
     myAlert(success, "Registration done");
+    localStorage.setItem("authPage", "0");
     window.location.href = 'auth.html';
   })
   .catch(error => {

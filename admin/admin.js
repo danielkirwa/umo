@@ -30,9 +30,41 @@ function loadUsersWithProtocolStatus(selectedStatus = "Not yet given") {
     });
   });
 }
+function updateUserCountsInDropdown() {
+  const enduserRef = firebase.database().ref("enduser");
+  const counts = {
+    "Not yet given": 0,
+    "Active": 0,
+    "Completed": 0
+  };
+
+  enduserRef.once("value", (snapshot) => {
+    snapshot.forEach((userEmailSnap) => {
+      const userEntries = userEmailSnap.val();
+      for (let key in userEntries) {
+        const user = userEntries[key];
+        const protocol = (user.protocol || user.protocal || "").toLowerCase();
+
+        if (protocol.includes("not yet given".toLowerCase())) counts["Not yet given"]++;
+        else if (protocol.includes("active")) counts["Active"]++;
+        else if (protocol.includes("completed")) counts["Completed"]++;
+      }
+    });
+
+    // Update the dropdown text
+    const select = document.getElementById("user-type-select");
+    Array.from(select.options).forEach(option => {
+      const status = option.value;
+      option.textContent = option.textContent.replace(/\s\d*$/, ''); // Remove previous count if any
+      option.textContent += ` ${counts[status]}`;
+    });
+  });
+}
 
 // Default load
 loadUsersWithProtocolStatus("Not yet given");
+updateUserCountsInDropdown();
+
 
 function calculateAge(dob) {
   const birthDate = new Date(dob);
