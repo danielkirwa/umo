@@ -96,14 +96,27 @@ function loadMessagesForAdmin(parentKey, childKey) {
     });
   });
 }
-
+const submittedTextDiv = document.getElementById("submittedTextholder");
+//submittedTextDiv.style.display = "none";
 function selectMessageForReply(messageId, originalText) {
-  document.getElementById("submittedText").innerText = originalText;
-  document.getElementById("replyDisplay").innerText = "";
+ // const submittedTextDiv = document.getElementById("submittedText");
+
+  if (originalText !== "") {
+    //submittedTextDiv.innerText = originalText;
+    submittedTextDiv.classList.remove("hidden");
+    console.log('hello');
+  } else {
+    //submittedTextDiv.innerText = "";
+    submittedTextDiv.classList.add("hidden");
+  }
+
+ // document.getElementById("replyDisplay").innerText = "";
   document.getElementById("replyBtn").setAttribute("onclick", `submitReply('${messageId}')`);
 }
 
+
 function submitReply(messageId) {
+  console.log("was cliked");
   const replyText = document.getElementById("replyInput").value.trim();
   if (!replyText) return alert("Please enter a reply.");
 

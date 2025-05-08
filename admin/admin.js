@@ -21,6 +21,7 @@ function loadUsersWithProtocolStatus(selectedStatus = "Not yet given") {
           row.setAttribute("data-user-email", userEmailSnap.key);
 
           row.innerHTML = `
+            <tr></tr>
             <td><a href="#" onclick="assignProtocol('${userEmailSnap.key}', '${key}')">${fullName} (Age: ${age})</a></td>
           `;
 
