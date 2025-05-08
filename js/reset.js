@@ -38,7 +38,10 @@ mailField.addEventListener('blur', () => {
         labels.item(0).className = "unfocused-field";
 });
 
-
+// auht page set up 
+function authPageRegister(){
+    localStorage.setItem("authPage", "1");
+}
 
 // alert 
 

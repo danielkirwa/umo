@@ -8,13 +8,24 @@ let btnregister = document.getElementById('btnregister');
       const registerForm = document.getElementById('register-form');
 
       if (formType === 'register') {
+        localStorage.setItem("authPage", "1");
         loginForm.classList.remove('active');
         registerForm.classList.add('active');
       } else {
+        localStorage.setItem("authPage", "0");
         registerForm.classList.remove('active');
         loginForm.classList.add('active');
       }
     }
+  
+  window.addEventListener("DOMContentLoaded", function autoRunOnLoad() {
+    const authPage = localStorage.getItem("authPage");
+    if (authPage === "1") {
+      toggleForm("register");
+    } else {
+      toggleForm("login");
+    }
+  });
 
     function iforgotpassword(){
       window.location.href = 'reset.html';
