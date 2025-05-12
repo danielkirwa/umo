@@ -24,8 +24,8 @@ if (!userEmailKey || !endUserKey) {
           <p><strong>Assignee :</strong> </p>
           <p><strong>Age:</strong> ${age}</p>
           <p><strong>Sex:</strong> ${user.sex}</p>
-          <p><strong>Program Started on :</strong><input type="date" id="sd" value="${globalStartDate}" required /></p>
-          <p><strong>Program Ended on :</strong><input type="date" id="spd" value="${globalEnddate}" required /></p>
+          <p><strong>Program Started on :</strong><input type="date" id="sd" value="${user.programEndDate}" required /></p>
+          <p><strong>Program Ended on :</strong><input type="date" id="spd" value="${user.programStartDate}" required /></p>
           <p><strong>Number Of Performed Sessions :</strong> 23</p>
           <p>
             <button id="saveDatesBtn" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Save Dates</button>
@@ -75,33 +75,22 @@ function calculateAge(dob) {
 function updateProtocolDates(parentEmail, childName, newStartDate, newStopDate) {
   const db = firebase.database();
   const sanitizedEmail = parentEmail.replace(/\./g, "_dot_").replace(/@/g, "_at_");
-  const protocolsRef = db.ref(`endUsers/${sanitizedEmail}/childAccounts/${childName}/protocols`);
+  const endUserRef = db.ref(`enduser/${sanitizedEmail}/${childName}`);
 
-  protocolsRef.once("value").then(snapshot => {
-    let activeProtocolKey = null;
+  const updates = {
+    startDate: newStartDate,
+    stopDate: newStopDate
+  };
 
-    snapshot.forEach(child => {
-      const protocol = child.val();
-      if (protocol.status === "active") {
-        activeProtocolKey = child.key;
-      }
+  endUserRef.update(updates)
+    .then(() => {
+      console.log("Start and stop dates updated successfully");
+      // Optionally show success alert here
+    })
+    .catch((error) => {
+      console.error("Error updating protocol dates:", error);
+      alert("Failed to update dates");
     });
-
-    if (activeProtocolKey) {
-      const updates = {
-        startDate: newStartDate,
-        stopDate: newStopDate
-      };
-      return protocolsRef.child(activeProtocolKey).update(updates);
-    } else {
-      throw new Error("No active protocol found");
-    }
-  }).then(() => {
-    alert("Start and stop dates updated successfully");
-  }).catch(error => {
-    console.error("Error updating protocol dates:", error);
-    alert("Failed to update dates");
-  });
 }
 
 
@@ -485,7 +474,7 @@ saveprotocolbtn.addEventListener('click', () => {
 
 
 
-
+// remember to use if protocal date become specific to it
 // load protocol
 const container = document.getElementById('active-protocol');
 function loadProtocols(parentKey, childKey) {
@@ -502,8 +491,8 @@ function loadProtocols(parentKey, childKey) {
       Object.entries(data).forEach(([protocolId, protocolData]) => {
         const card = renderProtocolCard(protocolId, protocolData);
         container.appendChild(card);
-        globalEnddate = protocolData.stopDate;
-        globalStartDate = protocolData.startDate;
+        globalEnddate = "";
+        globalStartDate = "";
         hideprotocolwindow();
       });
     } else {
