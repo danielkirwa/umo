@@ -57,7 +57,7 @@ function updateUserCountsInDropdown() {
     Array.from(select.options).forEach(option => {
       const status = option.value;
       option.textContent = option.textContent.replace(/\s\d*$/, ''); // Remove previous count if any
-      option.textContent += ` ${counts[status]}`;
+      option.textContent += ` ( ${counts[status]} )`;
     });
   });
 }
