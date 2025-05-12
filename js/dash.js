@@ -58,7 +58,7 @@ hamburger.addEventListener("click", () => {
     // Save to Realtime Database
     firebase.database().ref(`enduser/${sanitizedEmail}/${endUserKey}`).set(endUserData)
       .then(() => {
-        alert("End user added successfully!");
+        //alert("End user added successfully!");
         document.getElementById("add-user-form").reset();
         closeModal(); // If you have a function to close modal
       })

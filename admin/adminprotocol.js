@@ -2,12 +2,15 @@
 const urlParams = new URLSearchParams(window.location.search);
 const userEmailKey = urlParams.get("user");
 const endUserKey = urlParams.get("enduser");
+let globalStartDate = "";
+let globalEnddate = "";
 
 // Check if keys are present
 if (!userEmailKey || !endUserKey) {
   document.getElementById("protocol-details").innerText = "Missing user info in URL.";
 } else {
   // Reference to the specific user
+  document.addEventListener("DOMContentLoaded", () => {
   const endUserRef = firebase.database().ref(`enduser/${userEmailKey}/${endUserKey}`);
 
   endUserRef.once("value")
@@ -15,33 +18,40 @@ if (!userEmailKey || !endUserKey) {
       if (snapshot.exists()) {
         const user = snapshot.val();
         const age = calculateAge(user.dateOfBirth);
-         document.getElementById("user-title").innerText = `${user.firstName} ${user.lastName}`;
+
+        document.getElementById("user-title").innerText = `${user.firstName} ${user.lastName}`;
         document.getElementById("protocol-details").innerHTML = `
           <p><strong>Assignee :</strong> </p>
           <p><strong>Age:</strong> ${age}</p>
           <p><strong>Sex:</strong> ${user.sex}</p>
-          <p><strong>Program Started on :</strong> <input type="date" id="sd" placeholder="Start Date" required /></p>
-             <p><strong>Program Ended on :</strong> <input type="date" id="spd" placeholder="End Date" required /></p>
-             <p><strong>Number Of Performed Sessions :</strong> 23</p>
-         <!--  <div class="mt-4">
-               <p><strong>Session List:</strong></p>
-               <div class="space-y-2 mt-2">
-                 <div class="border rounded-lg p-3 bg-gray-50 shadow-sm">
-                   <p><strong>Session Number:</strong> 1</p>
-                   <p><strong>Duration:</strong> 30 mins</p>
-                   <p><strong>Date:</strong> 12/01/2025 10:00AM</p>
-                   <p><strong>Protocol:</strong>Protocol 1</p>
-                 </div>
-                 <div class="border rounded-lg p-3 bg-gray-50 shadow-sm">
-                   <p><strong>Session Number:</strong> 2</p>
-                   <p><strong>Duration:</strong> 25 mins</p>
-                   <p><strong>Date:</strong> 14/01/2025 2:00PM</p>
-                   <p><strong>Protocol:</strong>Protocol 1</p>
-                 </div>
-                 Add more session cards here dynamically if needed
-               </div> -->
-             </div>
+          <p><strong>Program Started on :</strong><input type="date" id="sd" value="${globalStartDate}" required /></p>
+          <p><strong>Program Ended on :</strong><input type="date" id="spd" value="${globalEnddate}" required /></p>
+          <p><strong>Number Of Performed Sessions :</strong> 23</p>
+          <p>
+            <button id="saveDatesBtn" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Save Dates</button>
+          </p>
         `;
+
+        // Button now exists – safe to add listener
+        document.getElementById("saveDatesBtn").addEventListener("click", () => {
+          const startDate = document.getElementById("sd").value;
+          const endDate = document.getElementById("spd").value;
+
+          if (!startDate || !endDate) {
+            alert("Please select both start and end dates.");
+            return;
+          }
+
+          endUserRef.update({
+            programStartDate: startDate,
+            programEndDate: endDate
+          }).then(() => {
+            updateProtocolDates(userEmailKey, endUserKey, startDate, endDate);
+          }).catch((error) => {
+            console.error("Error updating dates:", error);
+            alert("Failed to update dates.");
+          });
+        });
       } else {
         document.getElementById("protocol-details").innerText = "User not found.";
       }
@@ -50,6 +60,9 @@ if (!userEmailKey || !endUserKey) {
       console.error("Error fetching user data:", error);
       document.getElementById("protocol-details").innerText = "Failed to load user data.";
     });
+});
+
+
 }
 
 function calculateAge(dob) {
@@ -57,6 +70,42 @@ function calculateAge(dob) {
   const ageDiff = Date.now() - birthDate.getTime();
   return Math.floor(ageDiff / (1000 * 60 * 60 * 24 * 365.25));
 }
+
+// update protocol dates
+function updateProtocolDates(parentEmail, childName, newStartDate, newStopDate) {
+  const db = firebase.database();
+  const sanitizedEmail = parentEmail.replace(/\./g, "_dot_").replace(/@/g, "_at_");
+  const protocolsRef = db.ref(`endUsers/${sanitizedEmail}/childAccounts/${childName}/protocols`);
+
+  protocolsRef.once("value").then(snapshot => {
+    let activeProtocolKey = null;
+
+    snapshot.forEach(child => {
+      const protocol = child.val();
+      if (protocol.status === "active") {
+        activeProtocolKey = child.key;
+      }
+    });
+
+    if (activeProtocolKey) {
+      const updates = {
+        startDate: newStartDate,
+        stopDate: newStopDate
+      };
+      return protocolsRef.child(activeProtocolKey).update(updates);
+    } else {
+      throw new Error("No active protocol found");
+    }
+  }).then(() => {
+    alert("Start and stop dates updated successfully");
+  }).catch(error => {
+    console.error("Error updating protocol dates:", error);
+    alert("Failed to update dates");
+  });
+}
+
+
+
 
 // hide ans show window
 // message and chat option 
@@ -96,14 +145,27 @@ function loadMessagesForAdmin(parentKey, childKey) {
     });
   });
 }
-
+const submittedTextDiv = document.getElementById("submittedTextholder");
+//submittedTextDiv.style.display = "none";
 function selectMessageForReply(messageId, originalText) {
-  document.getElementById("submittedText").innerText = originalText;
-  document.getElementById("replyDisplay").innerText = "";
+ // const submittedTextDiv = document.getElementById("submittedText");
+
+  if (originalText !== "") {
+    //submittedTextDiv.innerText = originalText;
+    submittedTextDiv.classList.remove("hidden");
+    console.log('hello');
+  } else {
+    //submittedTextDiv.innerText = "";
+    submittedTextDiv.classList.add("hidden");
+  }
+
+ // document.getElementById("replyDisplay").innerText = "";
   document.getElementById("replyBtn").setAttribute("onclick", `submitReply('${messageId}')`);
 }
 
+
 function submitReply(messageId) {
+  console.log("was cliked");
   const replyText = document.getElementById("replyInput").value.trim();
   if (!replyText) return alert("Please enter a reply.");
 
@@ -402,8 +464,8 @@ saveprotocolbtn.addEventListener('click', () => {
 
   const protocolMeta = {
     duration: "30",
-    startDate: "24-4-2025",
-    stopDate: "23-5-2025",
+    startDate: " ",
+    stopDate: " ",
     description: "New added",
     status: "Active"
   };
@@ -440,6 +502,8 @@ function loadProtocols(parentKey, childKey) {
       Object.entries(data).forEach(([protocolId, protocolData]) => {
         const card = renderProtocolCard(protocolId, protocolData);
         container.appendChild(card);
+        globalEnddate = protocolData.stopDate;
+        globalStartDate = protocolData.startDate;
         hideprotocolwindow();
       });
     } else {
@@ -491,8 +555,8 @@ function renderProtocolCard(protocolId, protocolData) {
 
   const info = document.createElement('p');
   /*info.innerHTML = `
-    <strong>Description:</strong> ${protocolData.description || 'N/A'}<br>
-    <strong>Duration:</strong> ${protocolData.duration || 'N/A'}<br>
+   <strong>Description:</strong> ${protocolData.description || 'N/A'}<br>
+     <strong>Duration:</strong> ${protocolData.duration || 'N/A'}<br> 
     <strong>Start:</strong> ${protocolData.startDate || 'N/A'}<br>
     <strong>Stop:</strong> ${protocolData.stopDate || 'N/A'}
   `;*/
