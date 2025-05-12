@@ -4,6 +4,7 @@ const userEmailKey = urlParams.get("user");
 const endUserKey = urlParams.get("enduser");
 let globalStartDate = "";
 let globalEnddate = "";
+let globalAssignee = "";
 
 // Check if keys are present
 if (!userEmailKey || !endUserKey) {
@@ -21,7 +22,7 @@ if (!userEmailKey || !endUserKey) {
 
         document.getElementById("user-title").innerText = `${user.firstName} ${user.lastName}`;
         document.getElementById("protocol-details").innerHTML = `
-          <p><strong>Assignee :</strong> </p>
+          <p id="user-full-name"> <strong> </strong> </p>
           <p><strong>Age:</strong> ${age}</p>
           <p><strong>Sex:</strong> ${user.sex}</p>
           <p><strong>Program Started on :</strong><input type="date" id="sd" value="${user.programEndDate}" required /></p>
@@ -471,6 +472,40 @@ saveprotocolbtn.addEventListener('click', () => {
 
   saveProtocolToFirebase(parentEmail, childName, protocolMeta, channelsData);
 })
+/// load Assingee name here
+
+document.addEventListener("DOMContentLoaded", function () {
+  firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+      const email = user.email;
+      const sanitizedEmail = email.replace(/\./g, "_dot_").replace(/@/g, "_at_");
+
+      // Fetch user's full name from the Realtime Database
+      firebase.database().ref("users/" + userEmailKey).once("value")
+        .then(snapshot => {
+          const userData = snapshot.val();
+          if (userData) {
+            const fullName = `${userData.firstName} ${userData.lastName}`;
+            console.log("Full Name:", fullName);
+
+            // OPTIONAL: display on page if needed
+            const nameDisplay = document.getElementById("user-full-name");
+            if (nameDisplay) {
+              nameDisplay.textContent = "Assignee : " + fullName;
+            }
+          } else {
+            console.warn("User data not found in database.");
+          }
+        })
+        .catch(error => {
+          console.error("Error fetching user data:", error);
+        });
+
+    } else {
+      console.warn("No user is logged in.");
+    }
+  });
+});
 
 
 
