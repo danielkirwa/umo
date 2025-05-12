@@ -48,29 +48,38 @@ btnlogin.addEventListener('click', () => {
     btnlogin.innerHTML = "Please wait...";
 
     firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
-      .then(() => {
-        return firebase.auth().signInWithEmailAndPassword(username, userpassword);
-      })
-      .then((userCredential) => {
-        // Save session (if needed)
-        localStorage.setItem("userEmail", username);
+  .then(() => {
+    return firebase.auth().signInWithEmailAndPassword(username, userpassword);
+  })
+  .then((userCredential) => {
+    localStorage.setItem("userEmail", username);
+    const sanitizedEmail = sanitizeEmail(username);
+    return firebase.database().ref("users/" + sanitizedEmail + "/Role").once("value");
+  })
+  .then((snapshot) => {
+    const role = snapshot.val();
 
-        // Redirect to dashboard
-        window.location.href = 'dashboard.html';
-      })
-      .catch((error) => {
-        const WrongPasswordError = 'The password is invalid or the user does not have a password.';
-        const NoUserError = 'There is no user record corresponding to this identifier. The user may have been deleted.';
-        const errorMsg = error.message;
+    if (role === "Admin") {
+      window.location.href = 'admin/dashboard.html';
+    } else if (role === "Assignee") {
+      window.location.href = 'dashboard.html';
+    } else {
+      window.location.href = 'welcomedashboard.html'; // default/fallback
+    }
+  })
+  .catch((error) => {
+    const WrongPasswordError = 'The password is invalid or the user does not have a password.';
+    const NoUserError = 'There is no user record corresponding to this identifier. The user may have been deleted.';
+    const errorMsg = error.message;
 
-        if (errorMsg === NoUserError || errorMsg === WrongPasswordError) {
-          myAlert(failed, "Check your credentials and try again");
-        } else {
-          myAlert(failed, "An error occurred. Try again.");
-        }
+    if (errorMsg === NoUserError || errorMsg === WrongPasswordError) {
+      myAlert(failed, "Check your credentials and try again");
+    } else {
+      myAlert(failed, "An error occurred. Try again.");
+    }
 
-        btnlogin.innerHTML = "Login Now";
-      });
+    btnlogin.innerHTML = "Login Now";
+  });
   }
 });
 
@@ -92,6 +101,7 @@ btnlogin.addEventListener('click', () => {
     const dob = document.getElementById("dob").value;
     const address = document.getElementById("address").value.trim();
     const errorDiv = document.getElementById("register-error");
+    const Role = "Assignee";
 
     errorDiv.textContent = "";
 
@@ -117,6 +127,7 @@ btnlogin.addEventListener('click', () => {
       dob,
       address,
       email,
+      Role,
       createdAt: new Date().toISOString()
     });
   })

@@ -683,13 +683,29 @@ loadProtocols(userEmailKey, endUserKey);
 loadClosedProtocols(userEmailKey, endUserKey);
 
 // check if user is authenticated
-auth.onAuthStateChanged(function(user){
-      if(user){
-         email = user.email;
-        //alert("Active user" + email);
-         //usernamedisplay.innerHTML = email;
-      }else{
-        //alert("No Active user");
-        window.location.href='../auth.html';
-      }
-    })
+auth.onAuthStateChanged(function(user) {
+  if (user) {
+    const email = user.email;
+    const sanitizedEmail = sanitizeEmail(email);
+
+    firebase.database().ref("users/" + sanitizedEmail + "/Role").once("value")
+      .then((snapshot) => {
+        const role = snapshot.val();
+
+        if (role === "Admin") {
+          //window.location.href = "adashboard.html";
+        } else if (role === "Assignee") {
+          window.location.href = "../dashboard.html";
+        } else {
+          window.location.href = "auth.html";
+        }
+      })
+      .catch((error) => {
+       // console.error("Failed to fetch role:", error);
+        // Optional fallback or error page
+        window.location.href = "../welcomedashboard.html";
+      });
+  } else {
+    window.location.href = '../auth.html';
+  }
+});
