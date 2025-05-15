@@ -72,28 +72,36 @@
           <!-- <h3 id="usertypefilter">##</h3> -->
           <table id="no-protocol-users" border="0">
            <thead>
-             
-               <div class="dropdown-container">
+             <tr>
+              <td>
+               <div class="dropdown-container" style="display:flex:">
                 <select id="user-type-select" class="custom-select">
                   <option value="Not yet given">New users</option>
                   <option value="Active">Active users</option>
                   <option value="Completed">Past users</option>
                 </select>
+                
+
               </div>
               <div>
                <br>
               </div>
-
+            </td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+              <td>  <input type="text" id="user-search2" placeholder="Search users by name..." style="margin-bottom: 10px; padding: 6px; width: 100%; max-width: 300px;"></td>
+                </tr>
            </thead>
            <tbody></tbody>
          </table>
         </div>
 
+
         <div class="card" id="my-syatemusers">
           <!-- <h3 id="usertypefilter">##</h3> -->
           <table id="system-users" border="0">
            <thead>
-             
+             <tr>
+              <td>
                <div class="dropdown-container">
                 <select id="system-user-type-select" class="custom-select">
                   <option value=" ">New users</option>
@@ -104,7 +112,10 @@
               <div>
                <br>
               </div>
-
+              </td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+              <td>  <input type="text" id="user-search" placeholder="Search users by name..." style="margin-bottom: 10px; padding: 6px; width: 100%; max-width: 300px;"></td>
+                </tr>
            </thead>
            <tbody id="users-tbody"></tbody>
          </table>
