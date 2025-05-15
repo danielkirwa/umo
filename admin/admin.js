@@ -121,13 +121,101 @@ function logout(){
 }
 
 // check if user is authenticated
-auth.onAuthStateChanged(function(user){
-      if(user){
-         email = user.email;
-        //alert("Active user" + email);
-         //usernamedisplay.innerHTML = email;
-      }else{
-        //alert("No Active user");
-        window.location.href='../auth.html';
+auth.onAuthStateChanged(function(user) {
+  if (user) {
+    const email = user.email;
+    const sanitizedEmail = sanitizeEmail(email);
+
+    firebase.database().ref("users/" + sanitizedEmail + "/Role").once("value")
+      .then((snapshot) => {
+        const role = snapshot.val();
+
+        if (role === "Admin") {
+          //window.location.href = "adashboard.html";
+        } else if (role === "Assignee") {
+          window.location.href = "../dashboard.html";
+        } else {
+          window.location.href = "auth.html";
+        }
+      })
+      .catch((error) => {
+       // console.error("Failed to fetch role:", error);
+        // Optional fallback or error page
+        window.location.href = "../welcomedashboard.html";
+      });
+  } else {
+    window.location.href = '../auth.html';
+  }
+});
+
+// load all the system user 
+ const usersRef = firebase.database().ref("users/");
+  const dropdown = document.getElementById("system-user-type-select");
+  const tbody = document.getElementById("users-tbody");
+
+  function sanitizeEmail(email) {
+    return email.replace(/\./g, "_dot_").replace(/@/g, "_at_");
+  }
+
+  // Step 1: Get role counts and populate dropdown
+  function populateRoleDropdown() {
+    usersRef.once("value", (snapshot) => {
+      const roleCounts = {};
+      let totalUsers = 0;
+
+      snapshot.forEach((child) => {
+        const role = child.val().Role || "Unassigned";
+        roleCounts[role] = (roleCounts[role] || 0) + 1;
+        totalUsers++;
+      });
+
+      // Clear and rebuild dropdown
+      dropdown.innerHTML = `<option value=" ">All Users (${totalUsers})</option>`;
+      for (const role in roleCounts) {
+        const option = document.createElement("option");
+        option.value = role;
+        option.textContent = `${role} (${roleCounts[role]})`;
+        dropdown.appendChild(option);
       }
-    })
+
+      loadUsersByRole(" "); // Load all users initially
+    });
+  }
+
+  // Step 2: Filter and display users based on selected role
+  function loadUsersByRole(role) {
+    usersRef.once("value", (snapshot) => {
+      tbody.innerHTML = "";
+
+      snapshot.forEach((child) => {
+        const user = child.val();
+        if (role === " " || user.Role === role) {
+          const fullName = `${user.firstName} ${user.lastName}`;
+const userParams = new URLSearchParams({
+  email: user.email,
+  firstName: user.firstName,
+  lastName: user.lastName,
+  phone: user.phone,
+  address: user.address,
+  dob: user.dob
+});
+          const row = document.createElement("tr");
+          row.innerHTML = `
+           <td><a href="users.html?${userParams.toString()}">${fullName}</a></td>
+
+          `;
+          tbody.appendChild(row);
+        }
+      });
+    });
+  }
+
+  dropdown.addEventListener("change", () => {
+    const selectedRole = dropdown.value.trim();
+    loadUsersByRole(selectedRole);
+  });
+
+  // Initial load
+  populateRoleDropdown();
+
+
