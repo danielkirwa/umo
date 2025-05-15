@@ -1,0 +1,160 @@
+<!-- training.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>End User chart</title>
+ <link rel="stylesheet" type="text/css" href="../css/dash.css">
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    /* Basic button styles */
+.button1 {
+    background-color: #1E90FF; 
+    color: white;              
+    font-size: 16px;           
+    padding: 12px 24px;     
+    border: none;              
+    border-radius: 8px;       
+    cursor: pointer;          
+    transition: background-color 0.3s ease, transform 0.2s ease; 
+}
+.button2 {
+    background-color: crimson; 
+    color: white;              
+    font-size: 16px;           
+    padding: 12px 24px;     
+    border: none;              
+    border-radius: 8px;       
+    cursor: pointer;          
+    transition: background-color 0.3s ease, transform 0.2s ease; 
+}
+ .custom-select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    font-size: 16px;
+    color: #333;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='gray' height='18' viewBox='0 0 24 24' width='18' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 18px 18px;
+    cursor: pointer;
+  }
+
+  .custom-select:focus {
+    border-color: #1E90FF;
+    outline: none;
+    box-shadow: 0 0 5px rgba(30, 144, 255, 0.5);
+  }
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo" style="height:40px">
+      <img src="../assets/logo2.png" style="height:40px">
+    </div>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="#" onclick="logout()">Logout</a>
+    </nav>
+  </header>
+  <br>
+ <main>
+  <div class="dashboard-container">
+    <div class="section-header">
+      <h2 id="user-name"></h2>
+      <p><strong>Phone:</strong> <span id="user-phone"></span></p>
+      <p><strong>Address:</strong> <span id="user-address"></span></p>
+      <p><strong>Date of Birth:</strong> <span id="user-dob"></span></p>
+      <p><strong>Email:</strong> <span id="user-email"></span></p>
+    </div>
+
+    <div class="card-row">
+      <div class="card" id="user-chart">
+        <h3>Children Assigned</h3>
+        <table id="user-table" border="1">
+          <thead>
+           
+          </thead>
+          <tbody id="children-tbody">
+            <!-- Children will load here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>
+
+      <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  <script type="text/javascript" src="../js/config.js"></script>
+<script>
+  function calculateAge(dobString) {
+  const dob = new Date(dobString);
+  const today = new Date();
+  let age = today.getFullYear() - dob.getFullYear();
+  const monthDiff = today.getMonth() - dob.getMonth();
+
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+    age--;
+  }
+
+  return age;
+}
+
+  function sanitizeEmail(email) {
+    return email.replace(/\./g, "_dot_").replace(/@/g, "_at_");
+  }
+
+  // Step 1: Get user data from URL
+  const params = new URLSearchParams(window.location.search);
+  const email = params.get("email");
+  const firstName = params.get("firstName");
+  const lastName = params.get("lastName");
+  const phone = params.get("phone");
+  const address = params.get("address");
+  const dob = params.get("dob");
+
+  // Step 2: Show user details
+  document.getElementById("user-name").textContent = `${firstName} ${lastName}`;
+  document.getElementById("user-phone").textContent = phone;
+  document.getElementById("user-address").textContent = address;
+  document.getElementById("user-dob").textContent = dob;
+  document.getElementById("user-email").textContent = email;
+
+  // Step 3: Load children
+  const childrenTbody = document.getElementById("children-tbody");
+  const sanitizedEmail = sanitizeEmail(email);
+  const childrenRef = firebase.database().ref(`enduser/${sanitizedEmail}`);
+
+  childrenRef.once("value", (snapshot) => {
+    if (!snapshot.exists()) {
+      const row = document.createElement("tr");
+      row.innerHTML = `<td colspan="5">No children found.</td>`;
+      childrenTbody.appendChild(row);
+      return;
+    }
+
+    snapshot.forEach((childSnap) => {
+      const child = childSnap.val();
+      const fullName = `${child.firstName} ${child.lastName}`;
+
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${fullName}  </td>
+        <td> &nbsp;(${calculateAge(child.dateOfBirth)})</td>
+      `;
+      childrenTbody.appendChild(row);
+    });
+  });
+</script>
+
+</body>
+</html>

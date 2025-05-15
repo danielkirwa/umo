@@ -68,7 +68,7 @@
 
       <div class="card-row">
 
-        <div class="card big" id="my-users">
+        <div class="card" id="my-users">
           <!-- <h3 id="usertypefilter">##</h3> -->
           <table id="no-protocol-users" border="0">
            <thead>
@@ -86,6 +86,27 @@
 
            </thead>
            <tbody></tbody>
+         </table>
+        </div>
+
+        <div class="card" id="my-syatemusers">
+          <!-- <h3 id="usertypefilter">##</h3> -->
+          <table id="system-users" border="0">
+           <thead>
+             
+               <div class="dropdown-container">
+                <select id="system-user-type-select" class="custom-select">
+                  <option value=" ">New users</option>
+                  <option value="Admin">Admin</option>
+                  <option value="Assignee">Assignee</option>
+                </select>
+              </div>
+              <div>
+               <br>
+              </div>
+
+           </thead>
+           <tbody id="users-tbody"></tbody>
          </table>
         </div>
       </div>

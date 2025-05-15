@@ -142,7 +142,7 @@ function calculateAge(dob) {
   const row = document.createElement("tr");
   row.setAttribute("data-key", key); // attach the key
 
-  let newAge = `(${calculateAge(data.dateOfBirth)}) | Subscription ends on 30/April/2024 | Performed sessions 5`;
+  let newAge = `(${calculateAge(data.dateOfBirth)}) | Subscription ends on __ | Performed sessions _`;
   let listName = data.firstName + " " + data.lastName + " ";
 
   row.innerHTML = `
