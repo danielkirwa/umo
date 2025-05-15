@@ -178,7 +178,7 @@ auth.onAuthStateChanged(function(user) {
         dropdown.appendChild(option);
       }
 
-      loadUsersByRole(" "); // Load all users initially
+      //loadUsersByRole(" "); // Load all users initially
     });
   }
 
