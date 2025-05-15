@@ -1,3 +1,4 @@
+let savedValue = "Not yet given";
 function loadUsersWithProtocolStatus(selectedStatus = "Not yet given") {
   console.log(selectedStatus);
   const enduserRef = firebase.database().ref("enduser");
@@ -63,7 +64,7 @@ function updateUserCountsInDropdown() {
 }
 
 // Default load
-loadUsersWithProtocolStatus("Not yet given");
+//loadUsersWithProtocolStatus();
 updateUserCountsInDropdown();
 
 
@@ -91,14 +92,19 @@ function assignProtocol(userEmailKey, endUserKey) {
  const selectElement = document.getElementById("user-type-select");
   const displayElement = document.getElementById("usertypefilter");
 
-  // Load saved value on page load
   window.addEventListener("DOMContentLoaded", () => {
-    const savedValue = localStorage.getItem("selectedUserType");
-    if (savedValue) {
-      selectElement.value = savedValue;
-      //displayElement.textContent = savedValue;
-    }
-  });
+  const selectElement = document.getElementById("user-type-select");
+  const savedValue = localStorage.getItem("selectedUserType");
+
+  if (savedValue && selectElement) {
+    // Set the <select> to the stored value
+    selectElement.value = savedValue;
+
+    // Optionally: trigger your function to load filtered users
+    loadUsersWithProtocolStatus(savedValue);
+  }
+});
+
 
   // Save and update value when changed
   selectElement.addEventListener("change", function () {
