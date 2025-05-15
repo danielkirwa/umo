@@ -25,8 +25,8 @@ if (!userEmailKey || !endUserKey) {
           <p id="user-full-name"> <strong> </strong> </p>
           <p><strong>Age:</strong> ${age}</p>
           <p><strong>Sex:</strong> ${user.sex}</p>
-          <p><strong>Program Started on :</strong><input type="date" id="sd" value="${user.programEndDate}" required /></p>
-          <p><strong>Program Ended on :</strong><input type="date" id="spd" value="${user.programStartDate}" required /></p>
+          <p><strong>Program beginning :</strong><input type="date" id="sd" value="${user.programEndDate}" required /></p>
+          <p><strong>Program End :</strong><input type="date" id="spd" value="${user.programStartDate}" required /></p>
           <p><strong>Number Of Performed Sessions :</strong> 23</p>
           <p>
             <button id="saveDatesBtn" class="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Save Dates</button>
@@ -733,3 +733,13 @@ auth.onAuthStateChanged(function(user) {
     window.location.href = '../auth.html';
   }
 });
+function logout(){
+  // body...
+  firebase.auth().signOut().then(function() {
+  // Sign-out successful.
+  window.location.href='index.html';
+}).catch(function(error) {
+  // An error happened.
+  //myAlert(failed, "Failed to log out refresh and try again")
+});
+}
