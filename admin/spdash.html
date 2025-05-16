@@ -102,19 +102,21 @@
   <table id="system-users" border="0">
     <thead>
       <tr>
-        
          <td>
-          <input type="text" id="user-search-assignee" placeholder="Search" style="margin-bottom: 20px; padding: 6px; width: 100%; max-width: 300px;">
-        </td>
-        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-       <td>
-          <div class="dropdown-container" style="display:none;">
-            <select id="system-user-type-select-assignee" class="custom-select">
+          <div class="dropdown-container"  style="display:none;">
+            <select id="system-user-type-select-assignee" class="custom-select" disabled>
               <option value="Assignee">Assignee</option>
             </select>
           </div>
+          <b>Assignee</b>
           <div><br></div>
         </td>
+         
+        <td>&nbsp;</td>
+        <td>
+          <input type="text" id="user-search-assignee" placeholder="Search" style="margin-bottom: 20px; padding: 6px; width: 100%; max-width: 300px;">
+        </td>
+      
       </tr>
     </thead>
     <tbody id="users-tbody-assignee"></tbody>
@@ -126,18 +128,20 @@
   <table id="system-users-admin" border="0">
     <thead>
       <tr>
-       
-        <td>
-          <input type="text" id="user-search-admin" placeholder="Search" style="margin-bottom: 20px; padding: 6px; width: 100%; max-width: 300px;">
-        </td>
-        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-         <td>
+       <td>
           <div class="dropdown-container" style="display:none;">
             <select id="system-user-type-select-admin" class="custom-select">
               <option value="Admin">Admin</option>
             </select>
+
           </div>
+          <b>Admin</b>
           <div><br></div>
+        </td>
+        
+        <td>&nbsp;</td>
+         <td>
+          <input type="text" id="user-search-admin" placeholder="Search" style="margin-bottom: 20px; padding: 6px; width: 100%; max-width: 300px;">
         </td>
       </tr>
     </thead>
