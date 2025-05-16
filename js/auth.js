@@ -63,7 +63,9 @@ btnlogin.addEventListener('click', () => {
       window.location.href = 'admin/dashboard.html';
     } else if (role === "Assignee") {
       window.location.href = 'dashboard.html';
-    } else {
+    } else if (role === "SuperAdmin") {
+      window.location.href = 'admin/spdash.html';
+    }  else {
       window.location.href = 'welcomedashboard.html'; // default/fallback
     }
   })
