@@ -116,56 +116,45 @@ function calculateAge(dob) {
 
 // === SYSTEM USERS (RIGHT SIDE) ===
 
+
 const usersRef = firebase.database().ref("users/");
-const dropdown = document.getElementById("system-user-type-select");
-const tbody = document.getElementById("users-tbody");
 
-function populateRoleDropdown() {
+let assigneeUsers = [];
+let adminUsers = [];
+
+// === ASSIGNEE USERS TABLE ===
+const assigneeTbody = document.querySelector("#system-users tbody");
+const assigneeSearch = document.getElementById("user-search2");
+
+// === ADMIN USERS TABLE ===
+const adminTbody = document.querySelector("#system-users-admin tbody");
+const adminSearch = document.querySelectorAll("#user-search2")[1];  // Second search box
+
+function fetchAndRenderUsers() {
   usersRef.once("value", (snapshot) => {
-    const roleCounts = {};
-    let totalUsers = 0;
-
-    snapshot.forEach((child) => {
-      const role = child.val().Role || "Unassigned";
-      roleCounts[role] = (roleCounts[role] || 0) + 1;
-      totalUsers++;
-    });
-
-    dropdown.innerHTML = `<option value=" ">All Users (${totalUsers})</option>`;
-    for (const role in roleCounts) {
-      const option = document.createElement("option");
-      option.value = role;
-      option.textContent = `${role} (${roleCounts[role]})`;
-      dropdown.appendChild(option);
-    }
-  });
-}
-
-function loadUsersByRole(role) {
-  usersRef.once("value", (snapshot) => {
-    tbody.innerHTML = "";
-    loadedSystemUsers = [];
+    assigneeUsers = [];
+    adminUsers = [];
 
     snapshot.forEach((child) => {
       const user = child.val();
       const fullName = `${user.firstName} ${user.lastName}`;
+      const userData = { ...user, fullName };
 
-      if (role === " " || user.Role === role) {
-        loadedSystemUsers.push({
-          ...user,
-          fullName
-        });
+      if (user.Role === "Assignee") {
+        assigneeUsers.push(userData);
+      } else if (user.Role === "Admin") {
+        adminUsers.push(userData);
       }
     });
 
-    renderSystemUsers(loadedSystemUsers);
+    renderUsers(assigneeUsers, assigneeTbody);
+    renderUsers(adminUsers, adminTbody);
   });
 }
 
-function renderSystemUsers(usersToDisplay) {
-  tbody.innerHTML = "";
-
-  usersToDisplay.forEach((user) => {
+function renderUsers(userList, tbodyElement) {
+  tbodyElement.innerHTML = "";
+  userList.forEach((user) => {
     const userParams = new URLSearchParams({
       email: user.email,
       firstName: user.firstName,
@@ -177,26 +166,25 @@ function renderSystemUsers(usersToDisplay) {
 
     const row = document.createElement("tr");
     row.innerHTML = `<td><a href="users.html?${userParams.toString()}">${user.fullName}</a></td>`;
-    tbody.appendChild(row);
+    tbodyElement.appendChild(row);
   });
 }
 
-// Search for system users
-document.getElementById("user-search2").addEventListener("input", function () {
-  const searchTerm = this.value.toLowerCase();
-  const filteredUsers = loadedSystemUsers.filter(user =>
-    user.fullName.toLowerCase().includes(searchTerm)
-  );
-  renderSystemUsers(filteredUsers);
+// === SEARCH HANDLERS ===
+assigneeSearch.addEventListener("input", () => {
+  const searchTerm = assigneeSearch.value.toLowerCase();
+  const filtered = assigneeUsers.filter(user => user.fullName.toLowerCase().includes(searchTerm));
+  renderUsers(filtered, assigneeTbody);
 });
 
-dropdown.addEventListener("change", () => {
-  const selectedRole = dropdown.value.trim();
-  //loadUsersByRole(selectedRole);
+adminSearch.addEventListener("input", () => {
+  const searchTerm = adminSearch.value.toLowerCase();
+  const filtered = adminUsers.filter(user => user.fullName.toLowerCase().includes(searchTerm));
+  renderUsers(filtered, adminTbody);
 });
 
-//populateRoleDropdown();
-//loadUsersByRole(" ");
+// === INITIAL LOAD ===
+fetchAndRenderUsers();
 
 // === AUTH ===
 

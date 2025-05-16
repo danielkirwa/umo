@@ -720,6 +720,8 @@ auth.onAuthStateChanged(function(user) {
           //window.location.href = "adashboard.html";
         } else if (role === "Assignee") {
           window.location.href = "../dashboard.html";
+        }else if (role === "SuperAdmin") {
+          
         } else {
           window.location.href = "auth.html";
         }
