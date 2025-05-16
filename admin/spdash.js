@@ -31,11 +31,11 @@ function loadUsersWithProtocolStatus(selectedStatus = "Not yet given") {
       }
     });
 
-    renderUsers(loadedUsers);
+    renderEndUsers(loadedUsers);
   });
 }
 
-function renderUsers(usersToDisplay) {
+function renderEndUsers(usersToDisplay) {
   const tableBody = document.querySelector("#no-protocol-users tbody");
   tableBody.innerHTML = "";
 
@@ -58,7 +58,7 @@ document.getElementById("user-search1").addEventListener("input", function () {
   const filteredUsers = loadedUsers.filter(user =>
     user.fullName.toLowerCase().includes(searchTerm)
   );
-  renderUsers(filteredUsers);
+  renderEndUsers(filteredUsers);
 });
 
 // Dropdown for protocol users
@@ -114,21 +114,18 @@ function calculateAge(dob) {
   return Math.floor(ageDiff / (1000 * 60 * 60 * 24 * 365.25));
 }
 
-// === SYSTEM USERS (RIGHT SIDE) ===
 
-
+// === ASSIGNEE USERS TABLE ===
 const usersRef = firebase.database().ref("users/");
 
 let assigneeUsers = [];
 let adminUsers = [];
 
-// === ASSIGNEE USERS TABLE ===
-const assigneeTbody = document.querySelector("#system-users tbody");
-const assigneeSearch = document.getElementById("user-search2");
-
-// === ADMIN USERS TABLE ===
-const adminTbody = document.querySelector("#system-users-admin tbody");
-const adminSearch = document.querySelectorAll("#user-search2")[1];  // Second search box
+// Get DOM elements using new unique IDs
+const assigneeTbody = document.getElementById("users-tbody-assignee");
+const adminTbody = document.getElementById("users-tbody-admin");
+const assigneeSearch = document.getElementById("user-search-assignee");
+const adminSearch = document.getElementById("user-search-admin");
 
 function fetchAndRenderUsers() {
   usersRef.once("value", (snapshot) => {
@@ -153,6 +150,11 @@ function fetchAndRenderUsers() {
 }
 
 function renderUsers(userList, tbodyElement) {
+  if (!tbodyElement) {
+    console.error("tbodyElement not found");
+    return;
+  }
+
   tbodyElement.innerHTML = "";
   userList.forEach((user) => {
     const userParams = new URLSearchParams({
@@ -183,7 +185,7 @@ adminSearch.addEventListener("input", () => {
   renderUsers(filtered, adminTbody);
 });
 
-// === INITIAL LOAD ===
+// Initial fetch
 fetchAndRenderUsers();
 
 // === AUTH ===
