@@ -76,7 +76,7 @@
               <td>
                <div class="dropdown-container" style="display:flex:">
                 <select id="user-type-select" class="custom-select">
-                  <option value="All users">All users</option>
+                 
                   <option value="Not yet given">New users</option>
                   <option value="Active">Active users</option>
                   <option value="Completed">Past users</option>
@@ -97,53 +97,54 @@
         </div>
 
 
-        <div class="card" id="my-syatemusers">
-          <!-- <h3 id="usertypefilter">##</h3> -->
-          <table id="system-users" border="0">
-           <thead>
-             <tr>
-              
-              <td>  <input type="text" id="user-search2" placeholder="Search" style="margin-bottom: 20px; padding: 6px; width: 100%; max-width: 300px;"></td>
-            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-              <td>
-               <div class="dropdown-container" style="display:none">
-                <select id="system-user-type-select-admin" class="custom-select">
-                  <option value="Assignee">Assignee</option>
-                </select>
-              </div>
-              <div>
-               <br>
-              </div>
-              </td>
-                </tr>
-           </thead>
-           <tbody id="users-tbody"></tbody>
-         </table>
-        </div>
+       <!-- ASSIGNEE USERS -->
+<div class="card" id="assignee-users-card">
+  <table id="system-users" border="0">
+    <thead>
+      <tr>
+        
+         <td>
+          <input type="text" id="user-search-assignee" placeholder="Search" style="margin-bottom: 20px; padding: 6px; width: 100%; max-width: 300px;">
+        </td>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+       <td>
+          <div class="dropdown-container" style="display:none;">
+            <select id="system-user-type-select-assignee" class="custom-select">
+              <option value="Assignee">Assignee</option>
+            </select>
+          </div>
+          <div><br></div>
+        </td>
+      </tr>
+    </thead>
+    <tbody id="users-tbody-assignee"></tbody>
+  </table>
+</div>
 
-         <div class="card" id="my-syatemusers">
-          <!-- <h3 id="usertypefilter">##</h3> -->
-          <table id="system-users-admin" border="0">
-           <thead>
-             <tr>
-              
-              <td>  <input type="text" id="user-search2" placeholder="Search" style="margin-bottom: 20px; padding: 6px; width: 100%; max-width: 300px;"></td>
-                </tr>
-            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-              <td>
-               <div class="dropdown-container" style="display:none">
-                <select id="system-user-type-select-admin" class="custom-select">                
-                  <option value="Admin">Admin</option>
-                </select>
-              </div>
-              <div>
-               <br>
-              </div>
-              </td>
-           </thead>
-           <tbody id="users-tbody"></tbody>
-         </table>
-        </div>
+<!-- ADMIN USERS -->
+<div class="card" id="admin-users-card">
+  <table id="system-users-admin" border="0">
+    <thead>
+      <tr>
+       
+        <td>
+          <input type="text" id="user-search-admin" placeholder="Search" style="margin-bottom: 20px; padding: 6px; width: 100%; max-width: 300px;">
+        </td>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+         <td>
+          <div class="dropdown-container" style="display:none;">
+            <select id="system-user-type-select-admin" class="custom-select">
+              <option value="Admin">Admin</option>
+            </select>
+          </div>
+          <div><br></div>
+        </td>
+      </tr>
+    </thead>
+    <tbody id="users-tbody-admin"></tbody>
+  </table>
+</div>
+
       </div>
     </div>
   </main>
