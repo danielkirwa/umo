@@ -142,17 +142,28 @@
       return;
     }
 
-    snapshot.forEach((childSnap) => {
-      const child = childSnap.val();
-      const fullName = `${child.firstName} ${child.lastName}`;
+   snapshot.forEach((childSnap) => {
+  const child = childSnap.val();
+  const childId = childSnap.key;
+  const fullName = `${child.firstName} ${child.lastName}`;
+  const age = calculateAge(child.dateOfBirth);
 
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td>${fullName}  </td>
-        <td> &nbsp;(${calculateAge(child.dateOfBirth)})</td>
-      `;
-      childrenTbody.appendChild(row);
-    });
+  const row = document.createElement("tr");
+  row.style.cursor = "pointer"; // Make it look clickable
+  row.innerHTML = `
+    <td>${fullName}</td>
+    <td>&nbsp;(${age})</td>
+  `;
+
+  row.addEventListener("click", () => {
+    // Navigate to protocolchat.html with the required parameters
+    const url = `protocolchart.html?user=${encodeURIComponent(sanitizedEmail)}&enduser=${encodeURIComponent(childId)}`;
+    window.location.href = url;
+  });
+
+  childrenTbody.appendChild(row);
+});
+
   });
 </script>
 
