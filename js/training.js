@@ -12,6 +12,7 @@ const urlParams = new URLSearchParams(window.location.search);
       }
 
       const ref = firebase.database().ref(`enduser/${userKey}/${endUserKey}`);
+
       ref.once('value').then(snapshot => {
         const data = snapshot.val();
         if (!data) return;
@@ -21,8 +22,8 @@ const urlParams = new URLSearchParams(window.location.search);
 
        document.getElementById("details").innerHTML = `
              <p><strong>Age:</strong> ${age}</p>
-             <p><strong>Program Started on :</strong> </p>
-             <p><strong>Program Ended on :</strong>  </p>
+             <p><strong>Program beginning :</strong><input type="date" id="sd" value="${data.programEndDate}" required /></p>
+          <p><strong>Program End :</strong><input type="date" id="spd" value="${data.programStartDate}" required /></p>
              <p><strong>Number Of Performed Sessions : </p>
   
              <div class="mt-4">
