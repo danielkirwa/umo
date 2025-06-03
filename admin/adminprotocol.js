@@ -401,7 +401,11 @@ function saveProtocolToFirebase(parentEmail, childName, protocolMeta, channelsDa
       const band = bandNames[label] || `Unknown${label}`;
       mapped[band] = value === "Uptrain" ? 1 : 0;
     });
-    channelsObj[chKey] = mapped;
+     // Include stream name from dropdownValue
+    channelsObj[chKey] = {
+    stream: channel.dropdownValue,  // <- here
+    bands: mapped
+  };
     
   });
 
@@ -520,12 +524,15 @@ function loadProtocols(parentKey, childKey) {
     .equalTo("active");
 
   protocolsRef.on("value", snapshot => {
-    container.innerHTML = ""; // Clear old content
+    container.innerHTML = ""; // Clear previous content
     const data = snapshot.val();
+
     if (data) {
       Object.entries(data).forEach(([protocolId, protocolData]) => {
-        const card = renderProtocolCard(protocolId, protocolData);
+        const card = renderProtocolCard(protocolId, protocolData); // This function should already expect `stream` and `bands`
         container.appendChild(card);
+
+        // Optional resets
         globalEnddate = "";
         globalStartDate = "";
         hideprotocolwindow();
@@ -536,6 +543,7 @@ function loadProtocols(parentKey, childKey) {
     }
   });
 }
+
 
 // completed or closed protocol
 const container1 = document.getElementById('closed-protocol');
@@ -563,8 +571,8 @@ function loadClosedProtocols(parentKey, childKey) {
 }
 
 
-
-function renderProtocolCard(protocolId, protocolData) {
+// remove the xx to revert to old version
+function renderProtocolCardXX(protocolId, protocolData) {
   const card = document.createElement('div');
   card.className = 'protocol-card';
   card.style.border = '1px solid #ccc';
@@ -634,8 +642,127 @@ desiredOrder.forEach((bandName) => {
   return card;
 }
 
+function renderProtocolCard(protocolId, protocolData) {
+  const card = document.createElement('div');
+  card.className = 'protocol-card';
+  card.style.border = '1px solid #ccc';
+  card.style.padding = '10px';
+  card.style.marginBottom = '15px';
+  card.style.borderRadius = '10px';
+  card.style.backgroundColor = '#fafafa';
+
+  const info = document.createElement('p');
+  card.appendChild(info); // Optional: description, duration, etc.
+
+  // Channels
+  const channels = protocolData.channels || {};
+  const containerLine = document.createElement('div');
+  containerLine.style.display = 'flex';
+  containerLine.style.flexWrap = 'wrap'; // keeps it responsive
+  containerLine.style.gap = '20px';
+
+  const desiredOrder = ["Delta", "Theta", "Alpha", "SMR", "Beta1", "Beta2", "Gamma"];
+  const bandSymbols = {
+    delta: '&delta;',
+    theta: '&theta;',
+    alpha: '&alpha;',
+    smr: 'SMR',
+    beta1: '&beta;1',
+    beta2: '&beta;2',
+    gamma: '&gamma;'
+  };
+
+  Object.entries(channels).forEach(([channelKey, protocolItems]) => {
+    const stream = protocolItems.stream || 'N/A';
+    const bands = protocolItems.bands || {};
+
+    const line = document.createElement('span');
+    line.style.whiteSpace = 'nowrap'; // Keep all in one line
+
+    const chLabel = document.createElement('strong');
+    chLabel.innerHTML = `Ch${channelKey.replace('channel_', '')} Str: ${stream} `;
+    line.appendChild(chLabel);
+
+    // Add bands inline
+    desiredOrder.forEach(bandName => {
+      const value = bands[bandName];
+      if (value !== undefined) {
+        const span = document.createElement('span');
+        span.innerHTML = `<span style="margin-left:5px; color: ${value == 1 ? 'green' : 'red'};">${bandSymbols[bandName.toLowerCase()]}</span>`;
+        line.appendChild(span);
+      }
+    });
+
+    containerLine.appendChild(line);
+  });
+
+  card.appendChild(containerLine);
+  return card;
+}
+
 
 function renderClosedProtocolCard(protocolId, protocolData) {
+  const card = document.createElement('div');
+  card.className = 'protocol-card';
+  card.style.border = '1px solid #ccc';
+  card.style.padding = '10px';
+  card.style.marginBottom = '15px';
+  card.style.borderRadius = '10px';
+  card.style.backgroundColor = '#fafafa';
+
+  const info = document.createElement('p');
+  card.appendChild(info); // Optional: description, duration, etc.
+
+  // Channels
+  const channels = protocolData.channels || {};
+  const containerLine = document.createElement('div');
+  containerLine.style.display = 'flex';
+  containerLine.style.flexWrap = 'wrap'; // keeps it responsive
+  containerLine.style.gap = '20px';
+
+  const desiredOrder = ["Delta", "Theta", "Alpha", "SMR", "Beta1", "Beta2", "Gamma"];
+  const bandSymbols = {
+    delta: '&delta;',
+    theta: '&theta;',
+    alpha: '&alpha;',
+    smr: 'SMR',
+    beta1: '&beta;1',
+    beta2: '&beta;2',
+    gamma: '&gamma;'
+  };
+
+  Object.entries(channels).forEach(([channelKey, protocolItems]) => {
+    const stream = protocolItems.stream || 'N/A';
+    const bands = protocolItems.bands || {};
+
+    const line = document.createElement('span');
+    line.style.whiteSpace = 'nowrap'; // Keep all in one line
+
+    const chLabel = document.createElement('strong');
+    chLabel.innerHTML = `Ch${channelKey.replace('channel_', '')} Stream: ${stream} `;
+    line.appendChild(chLabel);
+
+    // Add bands inline
+    desiredOrder.forEach(bandName => {
+      const value = bands[bandName];
+      if (value !== undefined) {
+        const span = document.createElement('span');
+        span.innerHTML = `<span style="margin-left:5px; color: ${value == 1 ? 'green' : 'red'};">${bandSymbols[bandName.toLowerCase()]}</span>`;
+        line.appendChild(span);
+      }
+    });
+
+    containerLine.appendChild(line);
+  });
+
+  card.appendChild(containerLine);
+  return card;
+}
+
+
+
+// remove xx to revert to old version
+function renderClosedProtocolCardxx(protocolId, protocolData) {
   const card = document.createElement('div');
   card.className = 'protocol-card';
   card.style.border = '1px solid #ccc';
