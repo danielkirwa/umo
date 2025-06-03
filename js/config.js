@@ -1,13 +1,14 @@
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCiEna14ln6wb0SyBP_PoigtFLY8BCt53M",
-  authDomain: "umoapp-56692.firebaseapp.com",
-  projectId: "umoapp-56692",
-  databaseURL: "https://umoapp-56692-default-rtdb.europe-west1.firebasedatabase.app",
-  storageBucket: "umoapp-56692.firebasestorage.app",
-  messagingSenderId: "607388353425",
-  appId: "1:607388353425:web:69ead4b55a6654ddd59030",
-  measurementId: "G-RW318E5EMP"
+  apiKey: "AIzaSyDMFR4rgENh-1cy1hHIZmJvSLjiXy-Ytc4",
+    authDomain: "umo1-3750d.firebaseapp.com",
+    projectId: "umo1-3750d",
+    databaseURL: "https://umo1-3750d-default-rtdb.europe-west1.firebasedatabase.app",
+    storageBucket: "umo1-3750d.firebasestorage.app",
+    messagingSenderId: "472764687247",
+    appId: "1:472764687247:web:c1063ea7d766963472e1fa",
+    measurementId: "G-ZP63SFJ4H2"
+
 };
 
 // Initialize Firebase
